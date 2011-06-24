@@ -895,6 +895,11 @@ static int __init auart_console_setup(struct console *co, char *options)
 				port->port.membase = IO_ADDRESS(0x8006E000);
 				port->port.mapbase = 0x8006E000;
 			}
+		} else if (cpu_is_mx28()) {
+			if (co->index == 3) {
+				port->port.membase = IO_ADDRESS(0x80070000);
+				port->port.mapbase = 0x80070000;
+			}
 		}
 
 		port->port.fifosize = 16;
