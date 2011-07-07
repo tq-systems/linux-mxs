@@ -334,8 +334,7 @@ void __exit pcf2127a_exit(void)
        i2c_del_driver(&pcf2127a_driver);
 }
 
-MODULE_AUTHOR("M. Wolf <m.wolf@eckelmann.de>");
-MODULE_AUTHOR("T. Mehnert <t.mehnert@eckelmann.de>");
+MODULE_AUTHOR("M. Wolf <m.wolf@eckelmann.de>, T. Mehnert <t.mehnert@eckelmann.de>");
 MODULE_DESCRIPTION("NXP/Philips PCF2127A RTC (I2C) driver");
 MODULE_LICENSE("GPL");
 MODULE_VERSION(DRV_VERSION);
