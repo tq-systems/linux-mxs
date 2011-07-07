@@ -49,6 +49,7 @@
 #include "device.h"
 #include "mx28evk.h"
 #include "mx28_pins.h"
+#include "qx28.h"
 
 #if defined(CONFIG_SERIAL_MXS_DUART) || \
 	defined(CONFIG_SERIAL_MXS_DUART_MODULE)
@@ -357,7 +358,11 @@ static struct gpmi_nfc_platform_data  gpmi_nfc_platform_data = {
 	.min_prop_delay_in_ns    = 5,
 	.max_prop_delay_in_ns    = 9,
 	.max_chip_count          = 2,
+#if defined(CONFIG_MACH_QX28)
+	.boot_area_size_in_bytes = 0,
+#else
 	.boot_area_size_in_bytes = 20 * SZ_1M,
+#endif
 	.partition_source_types  = gpmi_nfc_partition_source_types,
 	.partitions              = 0,
 	.partition_count         = 0,
@@ -421,7 +426,7 @@ static void mx28_init_gpmi_nfc(void)
 #endif
 
 #if defined(CONFIG_MMC_MXS) || defined(CONFIG_MMC_MXS_MODULE)
-#if defined(CONFIG_MACH_MX28EVK) || defined(CONFIG_MACH_MBA28)
+#if defined(CONFIG_MACH_MX28EVK) || defined(CONFIG_MACH_MBA28) || defined(CONFIG_MACH_QX28)
 #define MMC0_POWER	MXS_PIN_TO_GPIO(PINID_PWM3)
 #define MMC1_POWER	MXS_PIN_TO_GPIO(PINID_PWM4)
 #define MMC0_WP		MXS_PIN_TO_GPIO(PINID_SSP1_SCK)
@@ -835,15 +840,31 @@ static struct resource fec1_resource[] = {
 	},
 };
 
+#if defined(CONFIG_MACH_MX28EVK) || defined(CONFIG_MACH_MBA28)
 extern int mx28evk_enet_gpio_init(void);
+#endif
+#if defined(CONFIG_MACH_QX28)
+extern int qx28_enet_gpio_init(void);
+#endif
+
 static struct fec_platform_data fec_pdata0 = {
 	.phy = PHY_INTERFACE_MODE_RMII,
+#if defined(CONFIG_MACH_MX28EVK) || defined(CONFIG_MACH_MBA28)
 	.init = mx28evk_enet_gpio_init,
+#endif
+#if defined(CONFIG_MACH_QX28)
+	.init = qx28_enet_gpio_init,
+#endif
 };
 
 static struct fec_platform_data fec_pdata1 = {
 	.phy = PHY_INTERFACE_MODE_RMII,
+#if defined(CONFIG_MACH_MX28EVK) || defined(CONFIG_MACH_MBA28)
 	.init = mx28evk_enet_gpio_init,
+#endif
+#if defined(CONFIG_MACH_QX28)
+	.init = qx28_enet_gpio_init,
+#endif
 };
 
 static void __init mx28_init_fec(void)
@@ -934,7 +955,12 @@ static unsigned int switch_platform_hw[2] = {
 
 static struct fec_platform_data fec_enet = {
 	.phy = PHY_INTERFACE_MODE_RMII,
+#if defined(CONFIG_MACH_MX28EVK) || defined(CONFIG_MACH_TQMA28)
 	.init = mx28evk_enet_gpio_init,
+#endif
+#if defined(CONFIG_MACH_QX28)
+	.init = qx28_enet_gpio_init,
+#endif
 };
 
 static struct switch_platform_data l2switch_data = {
