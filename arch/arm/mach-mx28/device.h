@@ -19,6 +19,8 @@
 #ifndef __ASM_ARCH_MACH_DEVICE_H__
 #define __ASM_ARCH_MACH_DEVICE_H__
 
+#include <linux/mtd/partitions.h>
+
 extern struct mxs_sys_timer mx28_timer;
 
 extern void __init mx28_map_io(void);
@@ -26,6 +28,7 @@ extern void __init mx28_clock_init(void);
 extern void __init mx28_irq_init(void);
 extern int __init mx28_pinctrl_init(void);
 extern int __init mx28_gpio_init(void);
+extern void __init mx28_register_nand_partitions(struct mtd_partition *, unsigned);
 extern int __init mx28_device_init(void);
 extern void __init mx28_init_auart(void);
 extern void __init

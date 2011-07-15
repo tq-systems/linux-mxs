@@ -419,8 +419,18 @@ static void __init mx28_init_gpmi_nfc(void)
 	pdev->num_resources     = ARRAY_SIZE(gpmi_nfc_resources);
 	mxs_add_device(pdev, 1);
 }
+
+void __init mx28_register_nand_partitions(struct mtd_partition *partitions, unsigned count)
+{
+	gpmi_nfc_platform_data.partitions = partitions;
+	gpmi_nfc_platform_data.partition_count = count;
+}
 #else
 static void mx28_init_gpmi_nfc(void)
+{
+}
+
+void __init mx28_register_nand_partitions(struct mtd_partition *partitions, unsigned count)
 {
 }
 #endif
