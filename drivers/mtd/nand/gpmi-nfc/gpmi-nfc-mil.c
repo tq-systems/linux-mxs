@@ -1623,8 +1623,8 @@ static int mil_partitions_init(struct gpmi_nfc_data *this)
 	 * attached to the platform data.
 	 */
 	if ((mil->partition_count <= 0) && (pdata->partitions)) {
-		mil->partition_count = mil->partition_count;
-		mil->partitions      = mil->partitions;
+		mil->partition_count = pdata->partition_count;
+		mil->partitions      = pdata->partitions;
 	}
 
 	/*
