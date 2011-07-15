@@ -472,15 +472,6 @@ static struct pin_desc qx28_gpmi_pins[] = {
 	 .pullup   = 0,
 	 .drive    = !0
 	 },
-	{
-	 .name     = "GPMI RST-",
-	 .id       = PINID_GPMI_RESETN,
-	 .fun      = PIN_FUN1,
-	 .strength = PAD_12MA,
-	 .voltage  = PAD_1_8V,
-	 .pullup   = 0,
-	 .drive    = !0
-	 },
 };
 
 #if defined(CONFIG_SPI_MXS) || defined(CONFIG_SPI_MXS_MODULE)
