@@ -119,6 +119,34 @@ static struct spi_board_info spi_board_info[] __initdata = {
 #endif
 };
 
+static struct mtd_partition qx28_nand_partitions[] = {
+	{
+		.name	= "uboot",
+		.offset	= 0,
+		.size	= 3 * SZ_128K,
+	},
+	{
+		.name	= "uboot-env",
+		.offset	= MTDPART_OFS_NXTBLK,
+		.size	= 1 * SZ_128K,
+	},
+	{
+		.name	= "linux",
+		.offset	= MTDPART_OFS_NXTBLK,
+		.size	= 3 * SZ_1M,
+	},
+	{
+		.name	= "rootfs",
+		.offset	= MTDPART_OFS_NXTBLK,
+		.size	= 1 * SZ_64M,
+	},
+	{
+		.name	= "data",
+		.offset	= MTDPART_OFS_NXTBLK,
+		.size	= MTDPART_SIZ_FULL,
+	},
+};
+
 static void __init fixup_board(struct machine_desc *desc, struct tag *tags,
 			       char **cmdline, struct meminfo *mi)
 {
@@ -146,11 +174,12 @@ static void __init qx28_init_machine(void)
 	mx28_gpio_init();
 	qx28_pins_init();
 
+	mx28_register_nand_partitions(qx28_nand_partitions, ARRAY_SIZE(qx28_nand_partitions));
 	mx28_device_init();
 	qx28_device_init();
 }
 
-MACHINE_START(QX28, "I2SE QX28 board with IEQMa28 module")
+MACHINE_START(QX28, "Freescale MX28 on a I2SE QX28 board with IEQMa28 module")
 	.phys_io	= 0x80000000,
 	.io_pg_offst	= ((0xf0000000) >> 18) & 0xfffc,
 	.boot_params	= 0x40000100,
