@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2009-2010 Freescale Semiconductor, Inc. All Rights Reserved.
- * Copyright (C) 2009-2011 IEQualize GmbH
+ * Copyright (C) 2011 IEQualize GmbH
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,6 +42,7 @@
 #include <linux/mtd/physmap.h>
 
 #include "device.h"
+#include "module-ieqma28.h"
 #include "qx28.h"
 
 
@@ -123,7 +124,7 @@ static struct mtd_partition qx28_nand_partitions[] = {
 	{
 		.name	= "uboot",
 		.offset	= 0,
-		.size	= 3 * SZ_128K,
+		.size	= 4 * SZ_512K,
 	},
 	{
 		.name	= "uboot-env",
@@ -172,6 +173,7 @@ static void __init qx28_init_machine(void)
 #endif
 
 	mx28_gpio_init();
+	ieqma28_pins_init();
 	qx28_pins_init();
 
 	mx28_register_nand_partitions(qx28_nand_partitions, ARRAY_SIZE(qx28_nand_partitions));
