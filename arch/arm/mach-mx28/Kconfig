@@ -12,10 +12,14 @@ config MACH_MBA28
 	select USB_ARCH_HAS_EHCI
 	select MACH_TQMA28
 
+config MODULE_IEQMA28
+	bool
+	select USB_ARCH_HAS_EHCI
+
 config MACH_QX28
 	bool "I2SE QX28 board with IEQMa28 module"
 	depends on ARCH_MX28
-	select USB_ARCH_HAS_EHCI
+	select MODULE_IEQMA28
 endchoice
 
 config VECTORS_PHY_ADDR
