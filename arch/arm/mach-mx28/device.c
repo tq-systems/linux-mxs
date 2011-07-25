@@ -436,13 +436,20 @@ void __init mx28_register_nand_partitions(struct mtd_partition *partitions, unsi
 #endif
 
 #if defined(CONFIG_MMC_MXS) || defined(CONFIG_MMC_MXS_MODULE)
-#if defined(CONFIG_MACH_MX28EVK) || defined(CONFIG_MACH_MBA28) || defined(CONFIG_MACH_QX28)
+#if defined(CONFIG_MACH_MX28EVK) || defined(CONFIG_MACH_MBA28)
+#define HAS_MMC0
+#define HAS_MMC1
 #define MMC0_POWER	MXS_PIN_TO_GPIO(PINID_PWM3)
 #define MMC1_POWER	MXS_PIN_TO_GPIO(PINID_PWM4)
 #define MMC0_WP		MXS_PIN_TO_GPIO(PINID_SSP1_SCK)
 #define MMC1_WP		MXS_PIN_TO_GPIO(PINID_GPMI_RESETN)
 #endif
+#if defined(CONFIG_MACH_QX28)
+#define HAS_MMC0
+#define MMC0_WP		MXS_PIN_TO_GPIO(PINID_GPMI_RESETN)
+#endif
 
+#ifdef HAS_MMC0
 static int mxs_mmc_get_wp_ssp0(void)
 {
 	return gpio_get_value(MMC0_WP);
@@ -460,6 +467,7 @@ static int mxs_mmc_hw_init_ssp0(void)
 	gpio_set_value(MMC0_WP, 0);
 	gpio_direction_input(MMC0_WP);
 
+#if defined(MMC0_POWER)
 	/* Configure POWER pin as gpio to drive power to MMC slot */
 	ret = gpio_request(MMC0_POWER, "mmc0_power");
 	if (ret)
@@ -467,6 +475,7 @@ static int mxs_mmc_hw_init_ssp0(void)
 
 	gpio_direction_output(MMC0_POWER, 0);
 	mdelay(100);
+#endif
 
 	return 0;
 
@@ -478,7 +487,9 @@ out_wp:
 
 static void mxs_mmc_hw_release_ssp0(void)
 {
+#if defined(MMC0_POWER)
 	gpio_free(MMC0_POWER);
+#endif
 	gpio_free(MMC0_WP);
 
 }
@@ -504,7 +515,9 @@ static unsigned long mxs_mmc_setclock_ssp0(unsigned long hz)
 
 	return hz;
 }
+#endif
 
+#ifdef HAS_MMC1
 static int mxs_mmc_get_wp_ssp1(void)
 {
 	return gpio_get_value(MMC1_WP);
@@ -565,14 +578,16 @@ static unsigned long mxs_mmc_setclock_ssp1(unsigned long hz)
 
 	return hz;
 }
+#endif
 
+#ifdef HAS_MMC0
 static struct mxs_mmc_platform_data mmc0_data = {
 	.hw_init	= mxs_mmc_hw_init_ssp0,
 	.hw_release	= mxs_mmc_hw_release_ssp0,
 	.get_wp		= mxs_mmc_get_wp_ssp0,
 	.cmd_pullup	= mxs_mmc_cmd_pullup_ssp0,
 	.setclock	= mxs_mmc_setclock_ssp0,
-	.caps 		= MMC_CAP_4_BIT_DATA | MMC_CAP_8_BIT_DATA
+	.caps 		= MMC_CAP_4_BIT_DATA
 #ifdef CONFIG_MACH_MBA28
 				| MMC_CAP_NONREMOVABLE
 #endif
@@ -611,7 +626,9 @@ static struct resource mmc0_resource[] = {
 		.end	= IRQ_SSP0,
 	},
 };
+#endif
 
+#ifdef HAS_MMC1
 static struct mxs_mmc_platform_data mmc1_data = {
 	.hw_init	= mxs_mmc_hw_init_ssp1,
 	.hw_release	= mxs_mmc_hw_release_ssp1,
@@ -651,12 +668,18 @@ static struct resource mmc1_resource[] = {
 		.end	= IRQ_SSP1,
 	},
 };
+#endif
 
 static void __init mx28_init_mmc(void)
 {
 	struct platform_device *pdev;
 
+#ifdef HAS_MMC0
 	if (mxs_get_type(PINID_SSP0_CMD) == PIN_FUN1) {
+
+		if (mxs_get_type(PINID_SSP0_DATA4) == PIN_FUN1)
+			mmc0_data.caps |= MMC_CAP_8_BIT_DATA;
+
 		pdev = mxs_get_device("mxs-mmc", 0);
 		if (pdev == NULL || IS_ERR(pdev))
 			return;
@@ -665,7 +688,9 @@ static void __init mx28_init_mmc(void)
 		pdev->dev.platform_data = &mmc0_data;
 		mxs_add_device(pdev, 2);
 	}
+#endif
 
+#ifdef HAS_MMC1
 	if (mxs_get_type(PINID_GPMI_RDY1) == PIN_FUN2) {
 		pdev = mxs_get_device("mxs-mmc", 1);
 		if (pdev == NULL || IS_ERR(pdev))
@@ -675,6 +700,7 @@ static void __init mx28_init_mmc(void)
 		pdev->dev.platform_data = &mmc1_data;
 		mxs_add_device(pdev, 2);
 	}
+#endif
 }
 #else
 static void mx28_init_mmc(void)
