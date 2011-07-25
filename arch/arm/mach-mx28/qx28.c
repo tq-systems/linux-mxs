@@ -41,7 +41,8 @@
 #include <linux/mtd/partitions.h>
 #include <linux/mtd/physmap.h>
 
-#include <linux/gpio-keys.h>
+#include <linux/input.h>
+#include <linux/gpio_keys.h>
 #include <linux/leds.h>
 
 #include "device.h"
@@ -94,7 +95,7 @@ static struct i2c_board_info __initdata qx28_i2c_devices[] = {
 #if defined(CONFIG_RTC_DRV_DS1307) || defined(CONFIG_RTC_DRV_DS1307_MODULE)
 	/* QX96_ETH_USB_RTC */
 	{
-		I2C_BOARD_INFO("ds1340"), 0x68),
+		I2C_BOARD_INFO("ds1340", 0x68),
 	},
 #endif
 };
@@ -191,12 +192,12 @@ static struct platform_device qx28_lon28_led_device = {
 	},
 };
 
-static void __init qx28_lon28_init_led(void)
+static void __init qx28_lon28_leds_init(void)
 {
 	platform_device_register(&qx28_lon28_led_device);
 }
 #else
-static inline void qx28_lon28_init_led(void) {}
+static inline void qx28_lon28_leds_init(void) {}
 #endif
 
 #if defined(CONFIG_EEPROM_AT25) || defined(CONFIG_EEPROM_AT25_MODULE)
