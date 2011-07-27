@@ -26,6 +26,8 @@
 #include <linux/slab.h>
 #include <linux/gpio.h>
 
+#include <asm/mach-types.h>
+
 #include "mx28_pins.h"
 #include <mach/power.h>
 #include <mach/regulator.h>
