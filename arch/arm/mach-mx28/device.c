@@ -32,6 +32,7 @@
 #include <linux/gpmi-nfc.h>
 #include <linux/fsl_devices.h>
 
+#include <asm/mach-types.h>
 #include <asm/mach/map.h>
 
 #include <mach/hardware.h>
@@ -452,6 +453,10 @@ void __init mx28_register_nand_partitions(struct mtd_partition *partitions, unsi
 #ifdef HAS_MMC0
 static int mxs_mmc_get_wp_ssp0(void)
 {
+	/* QX28 has WP statically pulled to Vdd */
+	if (machine_is_qx28())
+		return 0;
+
 	return gpio_get_value(MMC0_WP);
 }
 
