@@ -178,7 +178,7 @@ static struct pin_desc qx28_fixed_pins[] = {
 	/* USB power enable pins */
 	{
 		.name = "USB0_ENABLE",
-		.id = PINID_AUART2_TX,
+		.id = PINID_SSP0_DATA5, /* Remark: change to PINID_AUART2_TX for VCxxx */
 		.fun = PIN_GPIO,
 		.data = 0,
 		.output = 1,
@@ -187,18 +187,18 @@ static struct pin_desc qx28_fixed_pins[] = {
 		.name = "USB1_ENABLE",
 		.id = PINID_AUART2_RX,
 		.fun = PIN_GPIO,
-		.data = 1,
+		.data = 0,
 		.output = 1,
 	},
 	/* USB overcurrent pins */
 	{
 		.name = "USB0_OVERCURRENT",
-		.id = PINID_SSP2_SS1,
+		.id = PINID_SSP2_SS2,
 		.fun = PIN_FUN3,
 	},
 	{
-		.name = "USB0_OVERCURRENT",
-		.id = PINID_SSP2_SS2,
+		.name = "USB1_OVERCURRENT",
+		.id = PINID_SSP2_SS1,
 		.fun = PIN_FUN3,
 	},
 #if defined(CONFIG_USB_OTG)
