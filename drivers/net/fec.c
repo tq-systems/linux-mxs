@@ -780,7 +780,8 @@ static int fec_enet_mdio_reset(struct mii_bus *bus)
 static int fec_phy_reset(struct fec_enet_private *fep)
 {
 	int err = 0;
-#ifdef CONFIG_MACH_MBA28
+
+#if defined(CONFIG_MACH_MBA28) || defined(CONFIG_MACH_QX28)
 	struct phy_device *phy_dev = fep->phy_dev;
 	int val;
 	int timeout = 100;
