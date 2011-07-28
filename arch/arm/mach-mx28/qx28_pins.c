@@ -206,6 +206,9 @@ static struct pin_desc qx28_fixed_pins[] = {
 		.name = "USB0_ID",
 		.id = PINID_PWM2,
 		.fun = PIN_FUN2,
+		.data = 1,
+		.pull = 1,
+		.pullup = 1,
 	},
 #endif
 
