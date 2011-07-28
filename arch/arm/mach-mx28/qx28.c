@@ -73,16 +73,16 @@ static struct i2c_board_info __initdata qx28_i2c_devices[] = {
 #if defined(CONFIG_GPIO_PCA953X) || defined(CONFIG_GPIO_PCA953X_MODULE)
 	/* LON28 */
 	{
-		I2C_BOARD_INFO("pca9534", 0x20),
+		I2C_BOARD_INFO("pca9554", 0x38),
 		.platform_data = &qx28_lon28_pca953x_1_pdata,
 // TODO: .irq
 	},
 	{
-		I2C_BOARD_INFO("pca9534", 0x21),
+		I2C_BOARD_INFO("pca9554", 0x39),
 		.platform_data = &qx28_lon28_pca953x_2_pdata,
 	},
 	{
-		I2C_BOARD_INFO("pca9534", 0x22),
+		I2C_BOARD_INFO("pca9554", 0x3a),
 		.platform_data = &qx28_lon28_pca953x_3_pdata,
 	},
 #endif
