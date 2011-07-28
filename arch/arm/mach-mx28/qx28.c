@@ -47,6 +47,7 @@
 
 #include "device.h"
 #include "module-ieqma28.h"
+#include "mx28_pins.h"
 #include "qx28.h"
 
 #ifndef NR_BUILTIN_GPIO
@@ -70,12 +71,14 @@ static struct pca953x_platform_data qx28_lon28_pca953x_3_pdata = {
 #endif
 
 static struct i2c_board_info __initdata qx28_i2c_devices[] = {
+/*
+ * Attention: Keep this the first three entries or implement a smarter search below!
+ */
 #if defined(CONFIG_GPIO_PCA953X) || defined(CONFIG_GPIO_PCA953X_MODULE)
 	/* LON28 */
 	{
 		I2C_BOARD_INFO("pca9554", 0x38),
 		.platform_data = &qx28_lon28_pca953x_1_pdata,
-// TODO: .irq
 	},
 	{
 		I2C_BOARD_INFO("pca9554", 0x39),
@@ -102,6 +105,18 @@ static struct i2c_board_info __initdata qx28_i2c_devices[] = {
 
 static void __init qx28_i2c_init(void)
 {
+#if defined(CONFIG_GPIO_PCA953X) || defined(CONFIG_GPIO_PCA953X_MODULE)
+	struct i2c_board_info *p = &qx28_i2c_devices[1];
+	int irq_pin = MXS_PIN_TO_GPIO(PINID_SAIF1_SDATA0);
+
+	if (gpio_request(irq_pin, "pca9554 irq")) {
+		gpio_direction_input(irq_pin);
+		p->irq = gpio_to_irq(irq_pin);
+		printk(KERN_INFO "Got GPIO%d for pca9554 (0x%02x) IRQ\n", irq_pin, p->addr);
+	} else {
+		printk(KERN_ERR "Failed to request GPIO%d for pca955a (0x%02x) IRQ\n", irq_pin, p->addr);
+	}
+#endif
 	i2c_register_board_info(0, qx28_i2c_devices, ARRAY_SIZE(qx28_i2c_devices));
 }
 
