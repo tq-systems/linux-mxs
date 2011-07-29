@@ -328,6 +328,15 @@ static struct pin_desc qx28_fixed_pins[] = {
 		.pull = 0,
 	},
 #endif
+
+#if defined(CONFIG_GPIO_PCA953X) || defined(CONFIG_GPIO_PCA953X_MODULE)
+	{
+		.name = "PCA9554.INT",
+		.id = PINID_SAIF1_SDATA0,
+		.fun = PIN_GPIO,
+		.output = 0,
+	},
+#endif
 };
 
 #if defined(CONFIG_FEC) || defined(CONFIG_FEC_MODULE) || defined(CONFIG_FEC_L2SWITCH)
