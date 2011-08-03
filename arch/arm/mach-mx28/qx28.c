@@ -32,6 +32,7 @@
 #include <asm/mach/arch.h>
 
 #include <mach/hardware.h>
+#include <mach/irqs.h>
 #include <mach/device.h>
 #include <mach/pinctrl.h>
 
@@ -43,6 +44,7 @@
 
 #include <linux/input.h>
 #include <linux/gpio_keys.h>
+#include <linux/gpio_buttons.h>
 #include <linux/leds.h>
 
 #include "device.h"
@@ -50,11 +52,7 @@
 #include "mx28_pins.h"
 #include "qx28.h"
 
-#ifndef NR_BUILTIN_GPIO
-#define NR_BUILTIN_GPIO 160
-#endif
-
-#define QX28_LON28_GPIO(chip, pin) (NR_BUILTIN_GPIO + chip * 8 + pin)
+#define QX28_LON28_GPIO(chip, pin) (168 + chip * 8 + pin)
 
 #if defined(CONFIG_GPIO_PCA953X) || defined(CONFIG_GPIO_PCA953X_MODULE)
 static struct pca953x_platform_data qx28_lon28_pca953x_1_pdata = {
@@ -156,10 +154,50 @@ static struct gpio_keys_button qx28_lon28_gpio_keys[] = {
 	},
 };
 
+static struct gpio_button qx28_lon28_gpio_buttons[] = {
+	{
+		.type = EV_KEY,
+		.code = KEY_F1,
+		.gpio = QX28_LON28_GPIO(1, 0),
+		.desc = "Button A",
+		.active_low = 1,
+	}, {
+		.type = EV_KEY,
+		.code = KEY_F2,
+		.gpio = QX28_LON28_GPIO(1, 1),
+		.desc = "Button B",
+		.active_low = 1,
+	}, {
+		.type = EV_KEY,
+		.code = KEY_F3,
+		.gpio = QX28_LON28_GPIO(1, 2),
+		.desc = "LON Service",
+		.active_low = 1,
+	}, {
+		.type = EV_KEY,
+		.code = KEY_F5,
+		.gpio = QX28_LON28_GPIO(1, 3),
+		.desc = "LON SVC", /* FT5000 LON SVC */
+		.active_low = 1,
+	}, {
+		.type = EV_SW,
+		.code = SW_DOCK,
+		.gpio = QX28_LON28_GPIO(1, 4),
+		.desc = "LON Termination", /* LON 150 Ohm Termination Switch */
+		.active_low = 1,
+	},
+};
+
 static struct gpio_keys_platform_data qx28_lon28_gpio_keys_platform_data = {
 	.buttons = qx28_lon28_gpio_keys,
 	.nbuttons = ARRAY_SIZE(qx28_lon28_gpio_keys),
 	.rep = 0,
+};
+
+static struct gpio_buttons_platform_data qx28_lon28_gpio_buttons_platform_data = {
+	.buttons = qx28_lon28_gpio_buttons,
+	.nbuttons = ARRAY_SIZE(qx28_lon28_gpio_buttons),
+	.poll_interval = 50,
 };
 
 static struct platform_device qx28_lon28_gpio_keys_device = {
@@ -170,9 +208,18 @@ static struct platform_device qx28_lon28_gpio_keys_device = {
 	},
 };
 
+static struct platform_device qx28_lon28_gpio_buttons_device = {
+	.name = "gpio-buttons",
+	.id = -1,
+	.dev = {
+		.platform_data = &qx28_lon28_gpio_buttons_platform_data,
+	},
+};
+
 static void __init qx28_lon28_keys_init(void)
 {
-	platform_device_register(&qx28_lon28_gpio_keys_device);
+//	platform_device_register(&qx28_lon28_gpio_keys_device);
+	platform_device_register(&qx28_lon28_gpio_buttons_device);
 }
 #else
 static inline void qx28_lon28_keys_init(void) {}
