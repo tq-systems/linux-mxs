@@ -144,12 +144,6 @@ static struct gpio_keys_button qx28_lon28_gpio_keys[] = {
 		.gpio = QX28_LON28_GPIO(1, 3),
 		.desc = "LON SVC", /* FT5000 LON SVC */
 		.active_low = 1,
-	}, {
-		.type = EV_SW,
-		.code = SW_DOCK,
-		.gpio = QX28_LON28_GPIO(1, 4),
-		.desc = "LON Termination", /* LON 150 Ohm Termination Switch */
-		.active_low = 1,
 	},
 };
 
@@ -193,12 +187,6 @@ static struct gpio_button qx28_lon28_gpio_buttons[] = {
 		.code = KEY_F5,
 		.gpio = QX28_LON28_GPIO(1, 3),
 		.desc = "LON SVC", /* FT5000 LON SVC */
-		.active_low = 1,
-	}, {
-		.type = EV_SW,
-		.code = SW_DOCK,
-		.gpio = QX28_LON28_GPIO(1, 4),
-		.desc = "LON Termination", /* LON 150 Ohm Termination Switch */
 		.active_low = 1,
 	},
 };
