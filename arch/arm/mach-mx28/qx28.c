@@ -263,7 +263,7 @@ static struct spi_board_info qx28_spi_board_info[] __initdata = {
 #if defined(CONFIG_EEPROM_AT25) || defined(CONFIG_EEPROM_AT25_MODULE)
 	{
 		.modalias = "at25",
-		.max_speed_hz = 5000000,
+		.max_speed_hz = 1 * 1000 * 1000,
 		.bus_num = 1,
 		.chip_select = 0,
 		.platform_data = &qx28_lon28_at25_pdata,
