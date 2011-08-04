@@ -252,9 +252,9 @@ static inline void qx28_lon28_leds_init(void) {}
 
 #if defined(CONFIG_EEPROM_AT25) || defined(CONFIG_EEPROM_AT25_MODULE)
 static struct spi_eeprom qx28_lon28_at25_pdata = {
-	.byte_len = SZ_64K / 8,
-	.name = "at25640",
-	.page_size = 32,
+	.byte_len = SZ_64K,
+	.name = "m95512",
+	.page_size = 128,
 	.flags = EE_ADDR2,
 };
 #endif
