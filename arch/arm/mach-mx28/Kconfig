@@ -2,6 +2,10 @@ config MODULE_IEQMA28
 	bool
 	select USB_ARCH_HAS_EHCI
 
+config MODULE_TQMA28L
+	bool
+	select USB_ARCH_HAS_EHCI
+
 choice
 	prompt "Select i.MXS board type"
 
