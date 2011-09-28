@@ -183,7 +183,7 @@ static void __init vc200_init_machine(void)
 }
 
 /* FIXME: "Freescale MX28" string is required for mfg updater tool */
-MACHINE_START(VC200, "Freescale MX28 - TQMa28L - VC200")
+MACHINE_START(VC200, "Viessmann Vitocom 100/150/200")
 	.phys_io	= 0x80000000,
 	.io_pg_offst	= ((0xf0000000) >> 18) & 0xfffc,
 	.boot_params	= 0x40000100,
