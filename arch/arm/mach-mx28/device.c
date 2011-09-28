@@ -527,13 +527,18 @@ static unsigned long mxs_mmc_setclock_ssp0(unsigned long hz)
 #ifdef HAS_MMC1
 static int mxs_mmc_get_wp_ssp1(void)
 {
+#if defined(MMC1_WP)
 	return gpio_get_value(MMC1_WP);
+#else
+	return 0;
+#endif
 }
 
 static int mxs_mmc_hw_init_ssp1(void)
 {
 	int ret = 0;
 
+#if defined(MMC1_WP)
 	/* Configure write protect GPIO pin */
 	ret = gpio_request(MMC1_WP, "mmc1_wp");
 	if (ret)
@@ -541,7 +546,9 @@ static int mxs_mmc_hw_init_ssp1(void)
 
 	gpio_set_value(MMC1_WP, 0);
 	gpio_direction_input(MMC1_WP);
+#endif
 
+#if defined(MMC_POWER)
 	/* Configure POWER pin as gpio to drive power to MMC slot */
 	ret = gpio_request(MMC1_POWER, "mmc1_power");
 	if (ret)
@@ -549,19 +556,26 @@ static int mxs_mmc_hw_init_ssp1(void)
 
 	gpio_direction_output(MMC1_POWER, 0);
 	mdelay(100);
+#endif
 
 	return 0;
 
 out_power:
+#if defined(MMC1_WP)
 	gpio_free(MMC1_WP);
+#endif
 out_wp:
 	return ret;
 }
 
 static void mxs_mmc_hw_release_ssp1(void)
 {
+#if defined(MMC1_POWER)
 	gpio_free(MMC1_POWER);
+#endif
+#if defined(MMC1_WP)
 	gpio_free(MMC1_WP);
+#endif
 }
 
 static void mxs_mmc_cmd_pullup_ssp1(int enable)
