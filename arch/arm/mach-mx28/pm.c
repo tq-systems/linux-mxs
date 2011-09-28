@@ -89,6 +89,9 @@ static inline void do_standby(void)
 #if defined(CONFIG_MACH_QX28)
 	qx28_enet_io_lowerpower_enter();
 #endif
+#if defined(CONFIG_MACH_VC200)
+	vc200_enet_io_lowerpower_enter();
+#endif
 	/*
 	 * 1) switch clock domains from PLL to 24MHz
 	 * 2) lower voltage (TODO)
@@ -170,6 +173,9 @@ static inline void do_standby(void)
 #endif
 #if defined(CONFIG_MACH_QX28)
 	qx28_enet_io_lowerpower_exit();
+#endif
+#if defined(CONFIG_MACH_VC200)
+	vc200_enet_io_lowerpower_exit();
 #endif
 }
 

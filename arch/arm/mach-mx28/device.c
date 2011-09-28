@@ -449,6 +449,9 @@ void __init mx28_register_nand_partitions(struct mtd_partition *partitions, unsi
 #define HAS_MMC0
 #define MMC0_WP		MXS_PIN_TO_GPIO(PINID_GPMI_RESETN)
 #endif
+#if defined(CONFIG_MACH_VC200)
+#define HAS_MMC1
+#endif
 
 #ifdef HAS_MMC0
 static int mxs_mmc_get_wp_ssp0(void)
@@ -496,7 +499,6 @@ static void mxs_mmc_hw_release_ssp0(void)
 	gpio_free(MMC0_POWER);
 #endif
 	gpio_free(MMC0_WP);
-
 }
 
 static void mxs_mmc_cmd_pullup_ssp0(int enable)
@@ -641,7 +643,13 @@ static struct mxs_mmc_platform_data mmc1_data = {
 	.cmd_pullup	= mxs_mmc_cmd_pullup_ssp1,
 	.setclock	= mxs_mmc_setclock_ssp1,
 	.caps 		= MMC_CAP_4_BIT_DATA | MMC_CAP_8_BIT_DATA
-				| MMC_CAP_DATA_DDR,
+#ifdef CONFIG_MACH_VC200
+				| MMC_CAP_NONREMOVABLE
+#endif
+#ifndef CONFIG_MACH_VC200
+				| MMC_CAP_DATA_DDR
+#endif
+				,
 	.min_clk	= 400000,
 	.max_clk	= 48000000,
 	.read_uA        = 50000,
@@ -887,6 +895,9 @@ extern int mx28evk_enet_gpio_init(void);
 #if defined(CONFIG_MACH_QX28)
 extern int qx28_enet_gpio_init(void);
 #endif
+#if defined(CONFIG_MACH_VC200)
+extern int vc200_enet_gpio_init(void);
+#endif
 
 static struct fec_platform_data fec_pdata0 = {
 	.phy = PHY_INTERFACE_MODE_RMII,
@@ -895,6 +906,9 @@ static struct fec_platform_data fec_pdata0 = {
 #endif
 #if defined(CONFIG_MACH_QX28)
 	.init = qx28_enet_gpio_init,
+#endif
+#if defined(CONFIG_MACH_VC200)
+	.init = vc200_enet_gpio_init,
 #endif
 };
 
@@ -905,6 +919,9 @@ static struct fec_platform_data fec_pdata1 = {
 #endif
 #if defined(CONFIG_MACH_QX28)
 	.init = qx28_enet_gpio_init,
+#endif
+#if defined(CONFIG_MACH_VC200)
+	.init = vc200_enet_gpio_init,
 #endif
 };
 
