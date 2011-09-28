@@ -45,6 +45,7 @@
 #include "mx28_pins.h"
 #include "mx28evk.h"
 #include "qx28.h"
+#include "board-vc200.h"
 
 #include "sleep.h"
 
