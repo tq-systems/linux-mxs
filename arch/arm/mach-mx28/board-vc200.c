@@ -100,21 +100,21 @@ static void __init vc200_keys_init(void)
 	platform_device_register(&vc200_gpio_keys_device);
 }
 
-#define DEFINE_LED(pin, color, func) \
+#define DEFINE_LED(pin, color, func, activelow) \
                { .gpio = MXS_PIN_TO_GPIO(pin), \
                  .name = "vc200:" color ":" func, \
-                 .default_trigger = "none", .active_low = 1 }
+                 .default_trigger = "none", .active_low = activelow }
 
 static struct gpio_led vc200_leds[] = {
-	DEFINE_LED(PINID_LCD_D09, "green",  "led1"),
-	DEFINE_LED(PINID_LCD_D05, "green",  "led2_1"),
-	DEFINE_LED(PINID_LCD_D06, "yellow", "led2_2"),
-	DEFINE_LED(PINID_LCD_D07, "red",    "led2_3"),
-	DEFINE_LED(PINID_LCD_D00, "green",  "led3_1"),
-	DEFINE_LED(PINID_LCD_D01, "yellow", "led3_2"),
-	DEFINE_LED(PINID_LCD_D02, "green",  "led4_1"),
-	DEFINE_LED(PINID_LCD_D03, "red",    "led4_2"),
-	DEFINE_LED(PINID_LCD_D04, "green",  "led5"),
+	DEFINE_LED(PINID_LCD_D09, "green",  "led1",   1),
+	DEFINE_LED(PINID_LCD_D05, "green",  "led2_1", 0),
+	DEFINE_LED(PINID_LCD_D06, "yellow", "led2_2", 0),
+	DEFINE_LED(PINID_LCD_D07, "red",    "led2_3", 0),
+	DEFINE_LED(PINID_LCD_D00, "green",  "led3_1", 0),
+	DEFINE_LED(PINID_LCD_D01, "yellow", "led3_2", 1),
+	DEFINE_LED(PINID_LCD_D02, "green",  "led4_1", 0),
+	DEFINE_LED(PINID_LCD_D03, "red",    "led4_2", 1),
+	DEFINE_LED(PINID_LCD_D04, "green",  "led5",   0),
 };
 
 static struct gpio_led_platform_data vc200_led_pdata = {
