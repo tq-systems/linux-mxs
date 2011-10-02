@@ -182,7 +182,6 @@ static void __init vc200_init_machine(void)
 	spi_register_board_info(vc200_spi_board_info, ARRAY_SIZE(vc200_spi_board_info));
 }
 
-/* FIXME: "Freescale MX28" string is required for mfg updater tool */
 MACHINE_START(VC200, "Viessmann Vitocom 100/150/200")
 	.phys_io	= 0x80000000,
 	.io_pg_offst	= ((0xf0000000) >> 18) & 0xfffc,
