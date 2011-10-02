@@ -39,7 +39,7 @@
 #include <linux/spi/eeprom.h>
 
 #include <linux/input.h>
-#include <linux/gpio_keys.h>
+#include <linux/gpio_buttons.h>
 #include <linux/leds.h>
 
 #include "device.h"
@@ -47,7 +47,7 @@
 #include "mx28_pins.h"
 #include "board-vc200.h"
 
-static struct gpio_keys_button vc200_gpio_keys[] = {
+static struct gpio_button vc200_gpio_buttons[] = {
 	{
 		.type = EV_KEY,
 		.code = KEY_F1,
@@ -81,23 +81,23 @@ static struct gpio_keys_button vc200_gpio_keys[] = {
 	},
 };
 
-static struct gpio_keys_platform_data vc200_gpio_keys_platform_data = {
-	.buttons = vc200_gpio_keys,
-	.nbuttons = ARRAY_SIZE(vc200_gpio_keys),
-	.rep = 0,
+static struct gpio_buttons_platform_data vc200_gpio_buttons_platform_data = {
+	.buttons = vc200_gpio_buttons,
+	.nbuttons = ARRAY_SIZE(vc200_gpio_buttons),
+	.poll_interval = 50,
 };
 
-static struct platform_device vc200_gpio_keys_device = {
-	.name = "gpio-keys",
+static struct platform_device vc200_gpio_buttons_device = {
+	.name = "gpio-buttons",
 	.id = -1,
 	.dev = {
-		.platform_data = &vc200_gpio_keys_platform_data,
+		.platform_data = &vc200_gpio_buttons_platform_data,
 	},
 };
 
-static void __init vc200_keys_init(void)
+static void __init vc200_buttons_init(void)
 {
-	platform_device_register(&vc200_gpio_keys_device);
+	platform_device_register(&vc200_gpio_buttons_device);
 }
 
 #define DEFINE_LED(pin, color, func, activelow) \
@@ -177,7 +177,7 @@ static void __init vc200_init_machine(void)
 	mx28_device_init();
 
 	vc200_leds_init();
-	vc200_keys_init();
+	vc200_buttons_init();
 
 	spi_register_board_info(vc200_spi_board_info, ARRAY_SIZE(vc200_spi_board_info));
 }
