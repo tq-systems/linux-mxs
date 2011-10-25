@@ -300,11 +300,6 @@ static struct mtd_partition qx28_nand_partitions[] = {
 	{
 		.name	= "rootfs_data",
 		.offset	= MTDPART_OFS_NXTBLK,
-		.size	= 4 * SZ_1M,
-	},
-	{
-		.name	= "data",
-		.offset	= MTDPART_OFS_NXTBLK,
 		.size	= MTDPART_SIZ_FULL,
 	},
 };
