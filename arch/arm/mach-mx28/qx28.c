@@ -340,8 +340,7 @@ static void __init qx28_init_machine(void)
 	qx28_lon28_keys_init();
 }
 
-/* FIXME: "Freescale MX28" string is required for mfg updater tool */
-MACHINE_START(QX28, "Freescale MX28 - IEQMa28 - QX28")
+MACHINE_START(QX28, "I2SE QX28")
 	.phys_io	= 0x80000000,
 	.io_pg_offst	= ((0xf0000000) >> 18) & 0xfffc,
 	.boot_params	= 0x40000100,
