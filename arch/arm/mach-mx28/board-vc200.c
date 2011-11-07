@@ -110,11 +110,11 @@ static struct gpio_led vc200_leds[] = {
 	DEFINE_LED(PINID_LCD_D05, "green",  "led2_1", 0),
 	DEFINE_LED(PINID_LCD_D06, "yellow", "led2_2", 0),
 	DEFINE_LED(PINID_LCD_D07, "red",    "led2_3", 0),
-	DEFINE_LED(PINID_LCD_D00, "green",  "led3_1", 0),
+	DEFINE_LED(PINID_LCD_D00, "green",  "led3_1", 1),
 	DEFINE_LED(PINID_LCD_D01, "yellow", "led3_2", 1),
-	DEFINE_LED(PINID_LCD_D02, "green",  "led4_1", 0),
+	DEFINE_LED(PINID_LCD_D02, "green",  "led4_1", 1),
 	DEFINE_LED(PINID_LCD_D03, "red",    "led4_2", 1),
-	DEFINE_LED(PINID_LCD_D04, "green",  "led5",   0),
+	DEFINE_LED(PINID_LCD_D04, "green",  "led5",   1),
 };
 
 static struct gpio_led_platform_data vc200_led_pdata = {
