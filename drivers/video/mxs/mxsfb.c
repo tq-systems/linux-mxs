@@ -657,13 +657,21 @@ static int mxsfb_notifier(struct notifier_block *self,
 	case CPUFREQ_PRECHANGE:
 		if (old_state == F_ENABLE)
 			if (pentry->blank_panel)
+/* The blank_panel() calls were commented out to 
+ * prevent a bug where the display flickers on USB connects.
+ * This should be fixed in newer kernels.
+ */
+#if 0
 				pentry->blank_panel(FB_BLANK_POWERDOWN);
+#endif
 		break;
 
 	case CPUFREQ_POSTCHANGE:
 		if (old_state == F_ENABLE)
 			if (pentry->blank_panel)
+#if 0
 				pentry->blank_panel(FB_BLANK_UNBLANK);
+#endif
 		break;
 
 	default:
