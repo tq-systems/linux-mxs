@@ -58,6 +58,8 @@ static inline int get_power_enable_pin(void)
 		return MXS_PIN_TO_GPIO(PINID_SSP0_DATA5);
 	if (machine_is_vc200())
 		return MXS_PIN_TO_GPIO(PINID_SAIF1_SDATA0);
+	if (machine_is_homebox())
+		return MXS_PIN_TO_GPIO(PINID_PWM3);
 
 	return MXS_PIN_TO_GPIO(PINID_AUART2_TX);
 }

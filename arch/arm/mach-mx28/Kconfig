@@ -29,6 +29,11 @@ config MACH_VC200
 	bool "Viessmann Vitocom 100/150/200"
 	depends on ARCH_MX28
 	select MODULE_TQMA28L
+
+config MACH_HOMEBOX
+	bool "IEQualize Home-Box"
+	depends on ARCH_MX28
+	select MODULE_TQMA28L
 endchoice
 
 config VECTORS_PHY_ADDR

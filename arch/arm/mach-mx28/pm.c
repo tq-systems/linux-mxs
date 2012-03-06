@@ -46,6 +46,7 @@
 #include "mx28evk.h"
 #include "qx28.h"
 #include "board-vc200.h"
+#include "board-homebox.h"
 
 #include "sleep.h"
 
@@ -92,6 +93,9 @@ static inline void do_standby(void)
 #endif
 #if defined(CONFIG_MACH_VC200)
 	vc200_enet_io_lowerpower_enter();
+#endif
+#if defined(CONFIG_MACH_HOMEBOX)
+	homebox_enet_io_lowerpower_enter();
 #endif
 	/*
 	 * 1) switch clock domains from PLL to 24MHz
@@ -177,6 +181,9 @@ static inline void do_standby(void)
 #endif
 #if defined(CONFIG_MACH_VC200)
 	vc200_enet_io_lowerpower_exit();
+#endif
+#if defined(CONFIG_MACH_HOMEBOX)
+	homebox_enet_io_lowerpower_exit();
 #endif
 }
 
