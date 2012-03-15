@@ -1435,7 +1435,7 @@ mx28_persistent_bit_config[] = {
 	{ .reg = 0, .start =  4, .width =  1,
 		.name = "XTAL24MHZ_PWRUP" },
 	{ .reg = 0, .start =  5, .width =  1,
-		.name = "XTAL32MHZ_PWRUP" },
+		.name = "XTAL32KHZ_PWRUP" },
 	{ .reg = 0, .start =  6, .width =  1,
 		.name = "XTAL32_FREQ" },
 	{ .reg = 0, .start =  7, .width =  1,
