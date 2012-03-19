@@ -692,6 +692,31 @@ static struct resource ssp2_resources[] = {
 	},
 };
 
+#if defined(HAS_SSP0)
+static struct mxs_spi_platform_data spi0_data = {
+	.clk = "ssp.0",
+};
+static struct resource ssp0_resources[] = {
+	{
+		.start	= SSP0_PHYS_ADDR,
+		.end	= SSP0_PHYS_ADDR + 0x2000 - 1,
+		.flags	= IORESOURCE_MEM,
+	}, {
+		.start	= MXS_DMA_CHANNEL_AHB_APBH_SSP0,
+		.end	= MXS_DMA_CHANNEL_AHB_APBH_SSP0,
+		.flags	= IORESOURCE_DMA,
+	}, {
+		.start	= IRQ_SSP0_DMA,
+		.end	= IRQ_SSP0_DMA,
+		.flags	= IORESOURCE_IRQ,
+	}, {
+		.start	= IRQ_SSP0,
+		.end	= IRQ_SSP0,
+		.flags	= IORESOURCE_IRQ,
+	},
+};
+#endif
+
 static void __init mx28_init_spi(void)
 {
 	struct platform_device *pdev;
@@ -704,6 +729,17 @@ static void __init mx28_init_spi(void)
 	pdev->dev.platform_data = &spi_data;
 
 	mxs_add_device(pdev, 3);
+
+#if defined(HAS_SSP0)
+	pdev = mxs_get_device("mxs-spi", 1);
+	if (pdev == NULL || IS_ERR(pdev))
+		return;
+	pdev->resource = ssp0_resources;
+	pdev->num_resources = ARRAY_SIZE(ssp0_resources);
+	pdev->dev.platform_data = &spi0_data;
+
+	mxs_add_device(pdev, 3);
+#endif
 }
 #else
 static void mx28_init_spi(void)
