@@ -162,6 +162,7 @@ static int set_op(struct cpufreq_policy *policy, unsigned int target_freq)
 		clk_set_rate(emi_clk, (profiles[i].emi) * 1000);
 		clk_set_rate(cpu_clk, (profiles[i].cpu) * 1000);
 		clk_set_rate(ahb_clk, (profiles[i].ahb) * 1000);
+		__udelay(1000);
 		/* x_clk order doesn't really matter */
 		clk_set_rate(x_clk, (profiles[i].xbus) * 1000);
 		timing_ctrl_rams(ss);
@@ -226,6 +227,7 @@ static int set_op(struct cpufreq_policy *policy, unsigned int target_freq)
 		timing_ctrl_rams(ss);
 		clk_set_rate(cpu_clk, (profiles[i].cpu) * 1000);
 		clk_set_rate(ahb_clk, (profiles[i].ahb) * 1000);
+		__udelay(1000);
 		clk_set_rate(emi_clk, (profiles[i].emi) * 1000);
 	}
 

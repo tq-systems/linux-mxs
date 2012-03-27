@@ -24,7 +24,7 @@
 #include <linux/delay.h>
 #include <linux/iram_alloc.h>
 #include <linux/platform_device.h>
-
+#include <asm/mach/map.h>
 #include <mach/clock.h>
 
 #include "regs-clkctrl.h"
@@ -41,6 +41,11 @@
 #define BM_SAIF_STAT_BUSY       0x00000001
 #define CLKCTRL_BASE_ADDR IO_ADDRESS(CLKCTRL_PHYS_ADDR)
 #define DIGCTRL_BASE_ADDR IO_ADDRESS(DIGCTL_PHYS_ADDR)
+#define APBH_BASE_ADDR IO_ADDRESS(APBH_DMA_PHYS_ADDR)
+#define APBX_BASE_ADDR IO_ADDRESS(APBX_DMA_PHYS_ADDR)
+
+void (*f) (struct mxs_emi_scaling_data *, unsigned int *);
+static bool flag;
 
 /* external clock input */
 static struct clk xtal_clk[];
@@ -880,19 +885,22 @@ static unsigned long emi_round_rate(struct clk *clk, unsigned long rate)
 
 static int emi_set_rate(struct clk *clk, unsigned long rate)
 {
-	int i;
 	struct mxs_emi_scaling_data emi;
-	unsigned long iram_phy;
-	void (*f) (struct mxs_emi_scaling_data *, unsigned int *);
-	f = iram_alloc((unsigned int)mxs_ram_freq_scale_end -
-		(unsigned int)mxs_ram_freq_scale, &iram_phy);
-	if (NULL == f) {
-		pr_err("%s Not enough iram\n", __func__);
-		return -ENOMEM;
+	volatile unsigned int StateX, StateH;
+	volatile unsigned int APBHCTRL_Backup, APBXCTRL_Backup;
+	unsigned int i;
+
+	if (!flag) {
+		f = __arm_ioremap(MX28_OCRAM_DVFS_BASE, SZ_4K, MT_UNCACHED);
+		if (NULL == f) {
+			pr_info("%s ioremap fail!\n", __func__);
+			return -ENOMEM;
+		}
+		memcpy(f, mxs_ram_freq_scale, (unsigned int)mxs_ram_freq_scale_end -
+			(unsigned int)mxs_ram_freq_scale);
+		flag = true;
 	}
-	memcpy(f, mxs_ram_freq_scale,
-	       (unsigned int)mxs_ram_freq_scale_end -
-	       (unsigned int)mxs_ram_freq_scale);
+
 #ifdef CONFIG_MEM_mDDR
 	if (rate <= 24000000) {
 		emi.emi_div = 20;
@@ -914,7 +922,7 @@ static int emi_set_rate(struct clk *clk, unsigned long rate)
 	if (rate <= 133000000) {
 		emi.emi_div = 3;
 		emi.frac_div = 22;
-		emi.new_freq = 133;
+		emi.new_freq = 200;
 		DDR2EmiController_EDE1116_133MHz();
 	} else if (rate <= 166000000) {
 		emi.emi_div = 2;
@@ -931,17 +939,45 @@ static int emi_set_rate(struct clk *clk, unsigned long rate)
 
 	local_irq_disable();
 	local_fiq_disable();
+
+	APBHCTRL_Backup = __raw_readl(APBH_BASE_ADDR + 0x30);
+	__raw_writel(0xffff & 0x0000FFFF, APBH_BASE_ADDR + 0x34);
+
+	APBXCTRL_Backup = __raw_readl(APBX_BASE_ADDR + 0x30);
+	__raw_writel(0xffff & 0x0000FFFF, APBX_BASE_ADDR + 0x34);
+
+	/* Wating all channel data transfers, PIO words
+	 * and the DMA descriptor fetching stop */
+	for(i = 0; i < 16; i++) {
+		StateX = __raw_readl(APBX_BASE_ADDR + 0x150 + i * 0x70) & 0x1F;
+		while( (StateX != 0x00) && (StateX != 0x0C) &&
+			(StateX != 0x0D) && (StateX != 0x1E)) {
+			StateX = __raw_readl(APBX_BASE_ADDR + 0x150 + i * 0x70) & 0x1F;
+		}
+
+		StateH = __raw_readl(APBH_BASE_ADDR + 0x150 + i * 0x70) & 0x1F;
+		while( (StateH != 0x00) && (StateH != 0x0C) &&
+			(StateH != 0x0D) && (StateH != 0x1E)) {
+			StateH = __raw_readl(APBH_BASE_ADDR + 0x150 + i * 0x70) & 0x1F;
+		}
+	}
+
 	f(&emi, get_current_emidata());
+
+	/* Unfreeze APBH, APBX channel */
+	__raw_writel((~APBHCTRL_Backup) & 0x0000FFFF, APBH_BASE_ADDR + 0x38);
+	__raw_writel((~APBXCTRL_Backup) & 0x0000FFFF, APBX_BASE_ADDR + 0x38);
+
+	/* Wait till unFreeze happen */
+	while(__raw_readl(APBH_BASE_ADDR + 0x30) != APBHCTRL_Backup);
+	while(__raw_readl(APBX_BASE_ADDR + 0x30) != APBXCTRL_Backup);
+
 	local_fiq_enable();
 	local_irq_enable();
-	iram_free(iram_phy,
-		(unsigned int)mxs_ram_freq_scale_end -
-	       (unsigned int)mxs_ram_freq_scale);
 
 	for (i = 10000; i; i--)
 		if (!clk_is_busy(clk))
 			break;
-
 	if (!i) {
 		printk(KERN_ERR "couldn't set up EMI divisor\n");
 		return -ETIMEDOUT;

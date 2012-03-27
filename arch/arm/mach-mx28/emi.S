@@ -69,14 +69,14 @@ ENTRY(mxs_ram_freq_scale)
 	orr r2, r2,  #MX28_SOC_IO_ADDRESS(CLKCTRL_PHYS_ADDR)&0xFF0000
 	orr r2, r2,  #MX28_SOC_IO_ADDRESS(CLKCTRL_PHYS_ADDR)&0xFF000000
 
-	mov r0, r2
-	bl lock_vector_tlb
-
 	mov r0, #MX28_SOC_IO_ADDRESS(DRAM_PHYS_ADDR)&0xFF
 	orr r0, r0, #MX28_SOC_IO_ADDRESS(DRAM_PHYS_ADDR)&0xFF00
 	orr r0, r0, #MX28_SOC_IO_ADDRESS(DRAM_PHYS_ADDR)&0xFF0000
 	orr r0, r0, #MX28_SOC_IO_ADDRESS(DRAM_PHYS_ADDR)&0xFF000000
 
+	adr r3, __mx28_emisetting
+
+	bl lock_vector_tlb
 	@ Make sure emi not busy
 2:
 	ldr r1, [r0, #HW_DRAM_CTL08]
@@ -199,17 +199,26 @@ __mx28_emisetting:
 	.space MX28_DRAMCTRLREGNUM*4
 
 lock_vector_tlb:
-        mov r1, r0 @ set r1 to the value of the address to be locked down
-        mcr p15,0,r1,c8,c7,1    @ invalidate TLB single entry to ensure that
+
+	mov r1, #0x0
+        mcr p15,0,r1,c7,c10,4    @ invalidate TLB single entry to ensure that
+
+        mcr p15,0,r0,c8,c7,1    @ invalidate TLB single entry to ensure that
                                 @ LockAddr is not already in the TLB
-        mrc p15,0,r0,c10,c0,0   @ read the lockdown register
-        orr r0,r0,#1            @ set the preserve bit
-        mcr p15,0,r0,c10,c0,0   @ write to the lockdown register
-        ldr r1,[r1]             @ TLB will miss, and entry will be loaded
-        mrc p15,0,r0,c10,c0,0   @ read the lockdown register (victim will have
+        mcr p15,0,r2,c8,c7,1    @ invalidate TLB single entry to ensure that
+                                @ LockAddr is not already in the TLB
+        mcr p15,0,r3,c8,c7,1    @ invalidate TLB single entry to ensure that
+                                @ LockAddr is not already in the TLB
+        mrc p15,0,r1,c10,c0,0   @ read the lockdown register
+        orr r1,r1,#1            @ set the preserve bit
+        mcr p15,0,r1,c10,c0,0   @ write to the lockdown register
+        ldr r1,[r0]             @ TLB will miss, and entry will be loaded
+        ldr r1,[r2]             @ TLB will miss, and entry will be loaded
+        ldr r1,[r3]             @ TLB will miss, and entry will be loaded
+        mrc p15,0,r1,c10,c0,0   @ read the lockdown register (victim will have
                                 @ incremented)
-        bic r0,r0,#1            @ clear preserve bit
-        mcr p15,0,r0,c10,c0,0   @ write to the lockdown registerADR r1,LockAddr
+        bic r1,r1,#1            @ clear preserve bit
+        mcr p15,0,r1,c10,c0,0   @ write to the lockdown registerADR r1,LockAddr
         mov pc,lr
 
 __mxs_flush_cache_addr:

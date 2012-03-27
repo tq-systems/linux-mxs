@@ -32,7 +32,8 @@
 #else
 #define MX28_OCRAM_BASE     (void __iomem *)0xf1000000
 #endif
-#define MX28_OCRAM_SIZE     (128 * SZ_1K)
+#define MX28_OCRAM_SIZE     (128 * SZ_1K - SZ_4K)
+#define MX28_OCRAM_DVFS_BASE     (MX28_OCRAM_PHBASE + 128 * SZ_1K - SZ_4K)
 
 
 #define ICOLL_PHYS_ADDR		(MX28_SOC_IO_PHYS_BASE + 0x000000)
