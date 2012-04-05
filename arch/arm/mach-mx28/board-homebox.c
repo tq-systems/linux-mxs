@@ -84,12 +84,12 @@ static void __init homebox_buttons_init(void)
 #define DEFINE_LED(pin, color, func, activelow) \
                { .gpio = MXS_PIN_TO_GPIO(pin), \
                  .name = "homebox:" color ":" func, \
-                 .default_trigger = "none", .active_low = activelow }
+                 .default_trigger = trigger, .active_low = activelow }
 
 static struct gpio_led homebox_leds[] = {
-	DEFINE_LED(PINID_GPMI_RDY0, "red",    "error",  0),
-	DEFINE_LED(PINID_GPMI_RDN,  "yellow", "status", 0),
-	DEFINE_LED(PINID_GPMI_ALE,  "green",  "power",  0),
+	DEFINE_LED(PINID_GPMI_RDY0, "red",    "error",  "none",       0),
+	DEFINE_LED(PINID_GPMI_RDN,  "yellow", "status", "none",       0),
+	DEFINE_LED(PINID_GPMI_ALE,  "green",  "power",  "default-on", 0),
 };
 
 static struct gpio_led_platform_data homebox_led_pdata = {
