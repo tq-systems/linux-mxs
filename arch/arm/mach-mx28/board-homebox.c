@@ -81,7 +81,7 @@ static void __init homebox_buttons_init(void)
 	platform_device_register(&homebox_gpio_buttons_device);
 }
 
-#define DEFINE_LED(pin, color, func, activelow) \
+#define DEFINE_LED(pin, color, func, trigger, activelow) \
                { .gpio = MXS_PIN_TO_GPIO(pin), \
                  .name = "homebox:" color ":" func, \
                  .default_trigger = trigger, .active_low = activelow }
