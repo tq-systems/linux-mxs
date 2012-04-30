@@ -389,4 +389,12 @@ config LEDS_TRIGGER_USBDEV
 	  This allows LEDs to be controlled by the presence/activity of
 	  an USB device. If unsure, say N.
 
+config LEDS_TRIGGER_TRANSIENT
+	tristate "LED Transient Trigger"
+	depends on LEDS_TRIGGERS
+	help
+	  This allows one time activation of a transient state on
+	  GPIO/PWM based hadrware.
+	  If unsure, say Y.
+
 endif # NEW_LEDS
