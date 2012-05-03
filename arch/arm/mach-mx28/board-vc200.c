@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2009-2010 Freescale Semiconductor, Inc. All Rights Reserved.
- * Copyright (C) 2011 IEQualize GmbH
+ * Copyright (C) 2011-2012 IEQualize GmbH
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,6 +45,7 @@
 #include "device.h"
 #include "module-tqma28l.h"
 #include "mx28_pins.h"
+#include "export_gpio.h"
 #include "board-vc200.h"
 
 static struct gpio_button vc200_gpio_buttons[] = {
@@ -152,6 +153,23 @@ static struct spi_board_info vc200_spi_board_info[] __initdata = {
 	},
 };
 
+static struct export_gpio vc200_gpios[] = {
+	/* pin id,                           flags,               description,        direction, active low */
+	{ MXS_PIN_TO_GPIO(PINID_LCD_D10),    GPIOF_OUT_INIT_HIGH, "Linux SVC",                0, 1 }, /* GPIO  42 */
+	{ MXS_PIN_TO_GPIO(PINID_LCD_D11),    GPIOF_OUT_INIT_LOW,  "Linux On",                 0, 0 }, /* GPIO  43 */
+	{ MXS_PIN_TO_GPIO(PINID_LCD_D12),    GPIOF_OUT_INIT_HIGH, "FT5000 Reset",             0, 1 }, /* GPIO  44 */
+	{ MXS_PIN_TO_GPIO(PINID_LCD_D20),    GPIOF_IN,            "BCD Switch 0x01",          0, 1 }, /* GPIO  52 */
+	{ MXS_PIN_TO_GPIO(PINID_LCD_D21),    GPIOF_IN,            "BCD Switch 0x02",          0, 1 }, /* GPIO  53 */
+	{ MXS_PIN_TO_GPIO(PINID_LCD_D22),    GPIOF_IN,            "BCD Switch 0x04",          0, 1 }, /* GPIO  54 */
+	{ MXS_PIN_TO_GPIO(PINID_LCD_D23),    GPIOF_IN,            "BCD Switch 0x08",          0, 1 }, /* GPIO  55 */
+	{ MXS_PIN_TO_GPIO(PINID_LCD_WR_RWN), GPIOF_OUT_INIT_LOW,  "GPRS Module Power Switch", 0, 0 }, /* GPIO  57 */
+	{ MXS_PIN_TO_GPIO(PINID_I2C0_SCL),   GPIOF_IN,            "Digital Input 1",          0, 1 }, /* GPIO 120 */
+	{ MXS_PIN_TO_GPIO(PINID_I2C0_SDA),   GPIOF_IN,            "Digital Input 2",          0, 1 }, /* GPIO 121 */
+	{ MXS_PIN_TO_GPIO(PINID_SPDIF),      GPIOF_OUT_INIT_LOW,  "Digital Output",           0, 0 }, /* GPIO 123 */
+	{ MXS_PIN_TO_GPIO(PINID_PWM3),       GPIOF_IN,            "LON Termination Switch",   0, 1 }, /* GPIO 124 */
+	{ MXS_PIN_TO_GPIO(PINID_PWM4),       GPIOF_DIR_OUT,       "Power LED Blinker",        0, 1 }, /* GPIO 125 */
+};
+
 static void __init fixup_board(struct machine_desc *desc, struct tag *tags,
 			       char **cmdline, struct meminfo *mi)
 {
@@ -180,6 +198,8 @@ static void __init vc200_init_machine(void)
 	vc200_buttons_init();
 
 	spi_register_board_info(vc200_spi_board_info, ARRAY_SIZE(vc200_spi_board_info));
+
+	export_gpios(vc200_gpios, ARRAY_SIZE(vc200_gpios));
 }
 
 MACHINE_START(VC200, "Viessmann Vitocom 100/150/200")
