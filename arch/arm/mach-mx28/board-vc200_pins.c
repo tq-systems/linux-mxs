@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 IEQualize GmbH
+ * Copyright (C) 2011-2012 IEQualize GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License version 2 as published by the
@@ -51,7 +51,7 @@ static struct pin_desc vc200_fixed_pins[] = {
 		.id = PINID_AUART0_RTS,
 		.fun = PIN_FUN1,
 	},
-	/* GPRS module control */
+	/* GPRS module debug */
 	{
 		.name = "AUART1.RX",
 		.id = PINID_AUART1_RX,
@@ -62,7 +62,7 @@ static struct pin_desc vc200_fixed_pins[] = {
 		.id = PINID_AUART1_TX,
 		.fun = PIN_FUN1,
 	},
-	/* GPRS module debug */
+	/* GPRS module control */
 	{
 		.name = "AUART2.RX",
 		.id = PINID_SSP2_SCK,
