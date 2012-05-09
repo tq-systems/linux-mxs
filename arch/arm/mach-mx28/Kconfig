@@ -30,6 +30,11 @@ config MACH_VC200
 	depends on ARCH_MX28
 	select MODULE_TQMA28L
 
+config MACH_VC300
+	bool "Viessmann Vitocom 300"
+	depends on ARCH_MX28
+	select MODULE_TQMA28L
+
 config MACH_HOMEBOX
 	bool "IEQualize Home-Box"
 	depends on ARCH_MX28

@@ -452,6 +452,9 @@ void __init mx28_register_nand_partitions(struct mtd_partition *partitions, unsi
 #if defined(CONFIG_MACH_VC200)
 #define HAS_MMC1
 #endif
+#if defined(CONFIG_MACH_VC300)
+#define HAS_MMC1
+#endif
 #if defined(CONFIG_MACH_HOMEBOX)
 #define HAS_MMC1
 #endif
@@ -660,10 +663,10 @@ static struct mxs_mmc_platform_data mmc1_data = {
 	.cmd_pullup	= mxs_mmc_cmd_pullup_ssp1,
 	.setclock	= mxs_mmc_setclock_ssp1,
 	.caps 		= MMC_CAP_4_BIT_DATA | MMC_CAP_8_BIT_DATA
-#if defined(CONFIG_MACH_VC200) || defined(CONFIG_MACH_HOMEBOX)
+#if defined(CONFIG_MACH_VC200) || defined(CONFIG_MACH_VC300) || defined(CONFIG_MACH_HOMEBOX)
 				| MMC_CAP_NONREMOVABLE
 #endif
-#if !defined(CONFIG_MACH_VC200) && !defined(CONFIG_MACH_HOMEBOX)
+#if !defined(CONFIG_MACH_VC200) && !defined(CONFIG_MACH_VC300) && !defined(CONFIG_MACH_HOMEBOX)
 				| MMC_CAP_DATA_DDR
 #endif
 				,
@@ -915,6 +918,9 @@ extern int qx28_enet_gpio_init(void);
 #if defined(CONFIG_MACH_VC200)
 extern int vc200_enet_gpio_init(void);
 #endif
+#if defined(CONFIG_MACH_VC300)
+extern int vc300_enet_gpio_init(void);
+#endif
 #if defined(CONFIG_MACH_HOMEBOX)
 extern int homebox_enet_gpio_init(void);
 #endif
@@ -929,6 +935,9 @@ static struct fec_platform_data fec_pdata0 = {
 #endif
 #if defined(CONFIG_MACH_VC200)
 	.init = vc200_enet_gpio_init,
+#endif
+#if defined(CONFIG_MACH_VC300)
+	.init = vc300_enet_gpio_init,
 #endif
 #if defined(CONFIG_MACH_HOMEBOX)
 	.init = homebox_enet_gpio_init,
@@ -945,6 +954,9 @@ static struct fec_platform_data fec_pdata1 = {
 #endif
 #if defined(CONFIG_MACH_VC200)
 	.init = vc200_enet_gpio_init,
+#endif
+#if defined(CONFIG_MACH_VC300)
+	.init = vc300_enet_gpio_init,
 #endif
 #if defined(CONFIG_MACH_HOMEBOX)
 	.init = homebox_enet_gpio_init,

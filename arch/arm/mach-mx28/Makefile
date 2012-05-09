@@ -11,6 +11,7 @@ obj-$(CONFIG_MODULE_TQMA28L) += module-tqma28l.o
 obj-$(CONFIG_MACH_HOMEBOX) += board-homebox.o board-homebox_pins.o
 obj-$(CONFIG_MACH_QX28) += qx28.o qx28_pins.o
 obj-$(CONFIG_MACH_VC200) += board-vc200.o board-vc200_pins.o
+obj-$(CONFIG_MACH_VC300) += board-vc300.o board-vc300_pins.o
 obj-$(CONFIG_GENERIC_GPIO) += gpio.o
 obj-$(CONFIG_MXS_RAM_FREQ_SCALING) +=emi.o emi_settings.o
 
