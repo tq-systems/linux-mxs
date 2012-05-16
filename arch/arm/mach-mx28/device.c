@@ -454,6 +454,7 @@ void __init mx28_register_nand_partitions(struct mtd_partition *partitions, unsi
 #endif
 #if defined(CONFIG_MACH_VC300)
 #define HAS_MMC1
+#define HAS_SSP0
 #endif
 #if defined(CONFIG_MACH_HOMEBOX)
 #define HAS_MMC1
