@@ -94,7 +94,7 @@ static void vc300_i2c_init(void)
 	struct i2c_board_info *p = &vc300_i2c_devices[0];
 	int irq_pin = MXS_PIN_TO_GPIO(PINID_LCD_RS);
 
-	if (gpio_request(irq_pin, "pca9554 irq")) {
+	if (gpio_request(irq_pin, "pca9554 irq") == 0) {
 		gpio_direction_input(irq_pin);
 		p->irq = gpio_to_irq(irq_pin);
 		printk(KERN_INFO "Got GPIO%d for pca9554 (0x%02x) IRQ\n", irq_pin, p->addr);
@@ -121,6 +121,20 @@ static struct gpio_button vc300_gpio_buttons[] = {
 	DEFINE_VC300DB_KEY(3, KEY_LEFT,  "Left"),
 	DEFINE_VC300DB_KEY(4, KEY_DOWN,  "Down"),
 	DEFINE_VC300DB_KEY(5, KEY_ESC,   "Back"),
+	{
+		.type = EV_KEY,
+		.code = KEY_F5,
+		.gpio = MXS_PIN_TO_GPIO(PINID_LCD_D08),
+		.desc = "LON SVC", /* FT5000 LON SVC */
+		.active_low = 1,
+	},
+	{
+		.type = EV_KEY,
+		.code = KEY_F6,
+		.gpio = MXS_PIN_TO_GPIO(PINID_LCD_D07),
+		.desc = "M-Bus Interrupt",
+		.active_low = 1,
+	},
 };
 
 static struct gpio_buttons_platform_data vc300_gpio_buttons_platform_data = {
@@ -205,7 +219,7 @@ static void vc300_spi_init(void)
 	struct spi_board_info *p = &vc300_spi_board_info[1];
 	int irq_pin = MXS_PIN_TO_GPIO(PINID_SSP0_DATA1);
 
-	if (gpio_request(irq_pin, "sc16is7x2 irq")) {
+	if (gpio_request(irq_pin, "sc16is7x2 irq") == 0) {
 		gpio_direction_input(irq_pin);
 		p->irq = gpio_to_irq(irq_pin);
 		printk(KERN_INFO "Got GPIO%d for sc16is7x2 IRQ\n", irq_pin);
@@ -219,7 +233,6 @@ static void vc300_spi_init(void)
 static struct export_gpio vc300_gpios[] = {
 	/* pin id,                            flags,               description,        direction, active low */
 	{ MXS_PIN_TO_GPIO(PINID_LCD_D06)   ,  GPIOF_OUT_INIT_LOW,  "M-Bus Power Switch",       0, 0 }, /* GPIO  38 */
-	{ MXS_PIN_TO_GPIO(PINID_LCD_D07)   ,  GPIOF_IN,            "M-Bus Interrupt",          0, 1 }, /* GPIO  39 */
 	{ MXS_PIN_TO_GPIO(PINID_LCD_D10),     GPIOF_OUT_INIT_HIGH, "Linux SVC",                0, 1 }, /* GPIO  42 */
 	{ MXS_PIN_TO_GPIO(PINID_LCD_D11),     GPIOF_OUT_INIT_LOW,  "Linux On",                 0, 0 }, /* GPIO  43 */
 	{ MXS_PIN_TO_GPIO(PINID_LCD_D12),     GPIOF_OUT_INIT_HIGH, "FT5000 Reset",             0, 1 }, /* GPIO  44 */
