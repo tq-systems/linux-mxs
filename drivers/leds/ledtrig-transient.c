@@ -61,7 +61,7 @@ static ssize_t transient_activate_store(struct device *dev,
 	unsigned long state;
 	ssize_t ret;
 
-	ret = kstrtoul(buf, 10, &state);
+	ret = strict_strtoul(buf, 10, &state);
 	if (ret)
 		return ret;
 
@@ -112,7 +112,7 @@ static ssize_t transient_duration_store(struct device *dev,
 	unsigned long state;
 	ssize_t ret;
 
-	ret = kstrtoul(buf, 10, &state);
+	ret = strict_strtoul(buf, 10, &state);
 	if (ret)
 		return ret;
 
@@ -139,7 +139,7 @@ static ssize_t transient_state_store(struct device *dev,
 	unsigned long state;
 	ssize_t ret;
 
-	ret = kstrtoul(buf, 10, &state);
+	ret = strict_strtoul(buf, 10, &state);
 	if (ret)
 		return ret;
 
