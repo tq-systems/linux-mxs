@@ -193,6 +193,8 @@ static struct spi_eeprom vc300_at25_pdata = {
 static struct sc16is7x2_platform_data vc300_sc16is7x2_pdata = {
 	.uartclk = 14745600,
 	.uart_base = 6,
+	.uart_flags = { SC16IS7X2_UARTF_RS485 | SC16IS7X2_UARTF_RTSN,
+	                SC16IS7X2_UARTF_RS485 | SC16IS7X2_UARTF_RTSN },
 	.gpio_base = 168,
 };
 
