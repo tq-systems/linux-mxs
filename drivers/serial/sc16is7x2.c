@@ -41,11 +41,15 @@
 #define REG_IOS		0x0B	/* IO State register */
 #define REG_IOI		0x0C	/* IO Interrupt Enable register */
 #define REG_IOC		0x0E	/* IO Control register */
+#define REG_EFCR	0x0F	/* Extra Feature Control register */
 
 #define IOC_SRESET	0x08    /* Software reset */
 #define IOC_GPIO30	0x04    /* GPIO 3:0 unset: as IO, set: as modem pins */
 #define IOC_GPIO74	0x02    /* GPIO 7:4 unset: as IO, set: as modem pins */
 #define IOC_IOLATCH	0x01    /* Unset: input unlatched, set: input latched */
+
+#define EFCR_RTSCON	0x10	/* Unset: normal mode, set: transmitter controls RTS# pin */
+#define EFCR_RTSINVER	0x20	/* Unset: RTS# low during transmission, set: RTS# high */
 
 struct sc16is7x2_chip;
 
@@ -70,6 +74,7 @@ struct sc16is7x2_channel {
 	u8		lcr;		/* cache for LCR register */
 	u8		mcr;		/* cache for MCR register */
 	u8		efr;		/* cache for EFR register */
+	u8		efcr;		/* cache for EFCR register */
 #ifdef DEBUG
 	bool		handle_irq;
 #endif
@@ -290,6 +295,7 @@ static void sc16is7x2_handle_regs(struct sc16is7x2_chip *ts, unsigned ch)
 	sc16is7x2_write(ts, UART_FCR, ch, chan->fcr);
 	sc16is7x2_write(ts, UART_MCR, ch, chan->mcr);
 	sc16is7x2_write(ts, UART_IER, ch, chan->ier);
+	sc16is7x2_write(ts, REG_EFCR, ch, chan->efcr);
 
 	chan->handle_regs = false;
 }
@@ -920,6 +926,14 @@ static int sc16is7x2_register_uart_port(struct sc16is7x2_chip *ts,
 
 	/* Disable irqs and go to sleep */
 	sc16is7x2_write(ts, UART_IER, ch, UART_IERX_SLEEP);
+
+	/* Preset RS485 registers from platform data */
+	chan->efcr = 0;
+	if (pdata->uart_flags[ch] & SC16IS7X2_UARTF_RS485)
+		chan->efcr |= EFCR_RTSCON;
+	if (pdata->uart_flags[ch] & SC16IS7X2_UARTF_RTSN)
+		chan->efcr |= EFCR_RTSINVER;
+	sc16is7x2_write(ts, REG_EFCR, ch, chan->efcr);
 
 	chan->chip = ts;
 
