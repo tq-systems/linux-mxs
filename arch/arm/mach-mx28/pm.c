@@ -47,6 +47,7 @@
 #include "qx28.h"
 #include "board-vc200.h"
 #include "board-vc300.h"
+#include "board-em300.h"
 #include "board-homebox.h"
 
 #include "sleep.h"
@@ -97,6 +98,9 @@ static inline void do_standby(void)
 #endif
 #if defined(CONFIG_MACH_VC300)
 	vc300_enet_io_lowerpower_enter();
+#endif
+#if defined(CONFIG_MACH_EM300)
+	em300_enet_io_lowerpower_enter();
 #endif
 #if defined(CONFIG_MACH_HOMEBOX)
 	homebox_enet_io_lowerpower_enter();
@@ -188,6 +192,9 @@ static inline void do_standby(void)
 #endif
 #if defined(CONFIG_MACH_VC300)
 	vc300_enet_io_lowerpower_exit();
+#endif
+#if defined(CONFIG_MACH_EM300)
+	em300_enet_io_lowerpower_exit();
 #endif
 #if defined(CONFIG_MACH_HOMEBOX)
 	homebox_enet_io_lowerpower_exit();

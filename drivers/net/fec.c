@@ -782,7 +782,7 @@ static int fec_phy_reset(struct fec_enet_private *fep)
 	int err = 0;
 
 #if defined(CONFIG_MACH_MBA28) || defined(CONFIG_MACH_QX28) || defined(CONFIG_MACH_VC200) || \
-    defined(CONFIG_MACH_VC300) || defined(CONFIG_MACH_HOMEBOX)
+    defined(CONFIG_MACH_VC300) || defined(CONFIG_MACH_EM300) || defined(CONFIG_MACH_HOMEBOX)
 	struct phy_device *phy_dev = fep->phy_dev;
 	int val;
 	int timeout = 100;
