@@ -245,10 +245,10 @@ static struct export_gpio vc300_gpios[] = {
 	{ MXS_PIN_TO_GPIO(PINID_GPMI_RESETN), GPIOF_IN,            "Digital Input 2",          0, 1 }, /* GPIO  28 */
 	{ MXS_PIN_TO_GPIO(PINID_PWM3) ,       GPIOF_OUT_INIT_LOW,  "Digital Output",           0, 0 }, /* GPIO 124 */
 	{ MXS_PIN_TO_GPIO(PINID_PWM4),        GPIOF_DIR_OUT,       "Power LED Blinker",        0, 1 }, /* GPIO 125 */
-	{ MXS_PIN_TO_GPIO(PINID_LCD_RD_E),    GPIOF_OUT_INIT_LOW,  "SW SPI CLK",               0, 0 }, /* GPIO  */
-	{ MXS_PIN_TO_GPIO(PINID_LCD_D23),     GPIOF_OUT_INIT_LOW,  "SW SPI MOSI",              0, 0 }, /* GPIO  */
-	{ MXS_PIN_TO_GPIO(PINID_LCD_RESET),   GPIOF_IN,            "SW SPI MISO",              0, 0 }, /* GPIO  */
-	{ MXS_PIN_TO_GPIO(PINID_LCD_CS),      GPIOF_OUT_INIT_HIGH, "LCD Reset",                0, 0 }, /* GPIO  */
+	{ MXS_PIN_TO_GPIO(PINID_LCD_RD_E),    GPIOF_OUT_INIT_LOW,  "SW SPI CLK",               0, 0 }, /* GPIO  56 */
+	{ MXS_PIN_TO_GPIO(PINID_LCD_D23),     GPIOF_OUT_INIT_LOW,  "SW SPI MOSI",              0, 0 }, /* GPIO  55 */
+	{ MXS_PIN_TO_GPIO(PINID_LCD_RESET),   GPIOF_IN,            "SW SPI MISO",              0, 0 }, /* GPIO 126 */
+	{ MXS_PIN_TO_GPIO(PINID_LCD_CS),      GPIOF_OUT_INIT_HIGH, "LCD Reset",                0, 0 }, /* GPIO  59 */
 };
 
 static struct platform_device vc300_gpio_dev_device = {
