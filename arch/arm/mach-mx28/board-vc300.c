@@ -251,6 +251,11 @@ static struct export_gpio vc300_gpios[] = {
 	{ MXS_PIN_TO_GPIO(PINID_LCD_CS),      GPIOF_OUT_INIT_HIGH, "LCD Reset",                0, 0 }, /* GPIO  */
 };
 
+static struct platform_device vc300_gpio_dev_device = {
+	.name = "GPIODEV",
+	.id = -1,
+};
+
 static void __init fixup_board(struct machine_desc *desc, struct tag *tags,
 			       char **cmdline, struct meminfo *mi)
 {
@@ -281,6 +286,8 @@ static void __init vc300_init_machine(void)
 	vc300_spi_init();
 
 	export_gpios(vc300_gpios, ARRAY_SIZE(vc300_gpios));
+
+	platform_device_register(&vc300_gpio_dev_device);
 }
 
 MACHINE_START(VC300, "Viessmann Vitocom 300")
