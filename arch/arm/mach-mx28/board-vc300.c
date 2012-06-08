@@ -72,6 +72,8 @@ static struct pca9532_platform_data vc300_pca9532_pdata = {
 		DEFINE_VC300DB_LED(7,  "green",  "di_2"),
 		DEFINE_VC300DB_LED(8,  "red",    "di_2"),
 		DEFINE_VC300DB_LED(9,  "green",  "m-bus"),
+		{ /* pin 10 could be wired to LON led, but there is an unpolulated  0 ohm resistor */ },
+		DEFINE_VC300DB_LED(11, "red"  ,  "do"),
 	},
 	.psc = { 0, 0 },
 	.pwm = { 0, 0 },
