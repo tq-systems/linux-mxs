@@ -76,9 +76,11 @@ static int pca9532_calcpwm(struct i2c_client *client, int pwm, int blink,
 		}
 	}
 	if (a == 0) {
+#if 0
 		dev_err(&client->dev,
 		"fear of division by zero %d/%d, wanted %d\n",
 			b, a, value);
+#endif
 		return -EINVAL;
 	}
 	b = b/a;
