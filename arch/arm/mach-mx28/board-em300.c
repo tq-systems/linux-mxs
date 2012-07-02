@@ -127,10 +127,10 @@ static struct export_gpio em300_gpios[] = {
 	{ MXS_PIN_TO_GPIO(PINID_SSP0_CMD),    GPIOF_OUT_INIT_LOW,  "AI 7 NTC",                 0, 0 }, /* GPIO  72 */
 	{ MXS_PIN_TO_GPIO(PINID_SSP0_DETECT), GPIOF_OUT_INIT_LOW,  "AI 8 NTC",                 0, 0 }, /* GPIO  73 */
 
-	{ MXS_PIN_TO_GPIO(PINID_LCD_D23),     GPIOF_IN,            "Bus Address 0x01",         0, 0 }, /* GPIO  55 */
-	{ MXS_PIN_TO_GPIO(PINID_LCD_RESET),   GPIOF_IN,            "Bus Address 0x02",         0, 0 }, /* GPIO 126 */
-	{ MXS_PIN_TO_GPIO(PINID_LCD_RD_E),    GPIOF_IN,            "Bus Address 0x04",         0, 0 }, /* GPIO  56 */
-	{ MXS_PIN_TO_GPIO(PINID_LCD_WR_RWN),  GPIOF_IN,            "Bus Termination Switch",   0, 0 }, /* GPIO  57 */
+	{ MXS_PIN_TO_GPIO(PINID_LCD_D23),     GPIOF_IN,            "Bus Address 0x01",         0, 1 }, /* GPIO  55 */
+	{ MXS_PIN_TO_GPIO(PINID_LCD_RESET),   GPIOF_IN,            "Bus Address 0x02",         0, 1 }, /* GPIO 126 */
+	{ MXS_PIN_TO_GPIO(PINID_LCD_RD_E),    GPIOF_IN,            "Bus Address 0x04",         0, 1 }, /* GPIO  56 */
+	{ MXS_PIN_TO_GPIO(PINID_LCD_WR_RWN),  GPIOF_IN,            "Bus Termination Switch",   0, 1 }, /* GPIO  57 */
 
 	{ MXS_PIN_TO_GPIO(PINID_SAIF0_MCLK),  GPIOF_IN,            "Digital Input 1",          0, 1 }, /* GPIO 116 */
 	{ MXS_PIN_TO_GPIO(PINID_SAIF0_LRCLK), GPIOF_IN,            "Digital Input 2",          0, 1 }, /* GPIO 117 */
@@ -141,7 +141,7 @@ static struct export_gpio em300_gpios[] = {
 	{ MXS_PIN_TO_GPIO(PINID_SSP2_MISO),   GPIOF_IN,            "Digital Input 7",          0, 1 }, /* GPIO  82 */
 	{ MXS_PIN_TO_GPIO(PINID_SSP2_SS0),    GPIOF_IN,            "Digital Input 8",          0, 1 }, /* GPIO  83 */
 
-	{ MXS_PIN_TO_GPIO(PINID_SSP0_SCK),    GPIOF_OUT_INIT_LOW,  "Digital Output 1",         0, 0 }, /* GPIO  42 */
+	{ MXS_PIN_TO_GPIO(PINID_SSP0_SCK),    GPIOF_OUT_INIT_LOW,  "Digital Output 1",         0, 0 }, /* GPIO  74 */
 	{ MXS_PIN_TO_GPIO(PINID_GPMI_RESETN), GPIOF_OUT_INIT_LOW,  "Digital Output 2",         0, 0 }, /* GPIO  28 */
 
 	{ MXS_PIN_TO_GPIO(PINID_PWM4),        GPIOF_DIR_OUT,       "Power LED Blinker",        0, 1 }, /* GPIO 125 */
