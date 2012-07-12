@@ -414,10 +414,18 @@ static int mxsfb_set_par(struct fb_info *info)
 	if (pentry == pdata->cur || !pdata->cur)
 		return 0;
 
+#ifdef LOOK_FOR_OTHER_MATCHING_PANELS
+	/*
+	 * For some reason, this crashes the kernel when another panel
+	 * description that matches exists. Because we select the panel in
+	 * the command line, we do not check other panels.
+	 */
+
 	/* init next panel */
 	pdata->next = pentry;
 
 	set_controller_state(data, F_REENABLE);
+#endif
 
 	return 0;
 }
