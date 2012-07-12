@@ -79,7 +79,7 @@ static int init_panel(struct device *dev, dma_addr_t phys, int memsize,
 	if (ret)
 		goto out3;
 
-	ret = clk_set_rate(lcd_clk, 1000000000 / pentry->cycle_time_ns);	/* kHz */
+	ret = clk_set_rate(lcd_clk, 1000000000 / pentry->cycle_time_ns);	/* Hz */
 	if (ret)
 		goto out3;
 
@@ -202,7 +202,7 @@ static int init_bl(struct mxs_platform_bl_data *data)
 	__raw_writel(BF_PWM_ACTIVEn_INACTIVE(0) |
 		     BF_PWM_ACTIVEn_ACTIVE(0),
 		     REGS_PWM_BASE + HW_PWM_ACTIVEn(2));
-	__raw_writel(BF_PWM_PERIODn_CDIV(2) |	/* divide by 64 */
+	__raw_writel(BF_PWM_PERIODn_CDIV(2) |		/* divide by 64 */
 		     BF_PWM_PERIODn_INACTIVE_STATE(2) |	/* low */
 		     BF_PWM_PERIODn_ACTIVE_STATE(3) |	/* high */
 		     BF_PWM_PERIODn_PERIOD(599),
@@ -217,7 +217,7 @@ static void free_bl(struct mxs_platform_bl_data *data)
 	__raw_writel(BF_PWM_ACTIVEn_INACTIVE(0) |
 		     BF_PWM_ACTIVEn_ACTIVE(0),
 		     REGS_PWM_BASE + HW_PWM_ACTIVEn(2));
-	__raw_writel(BF_PWM_PERIODn_CDIV(2) |	/* divide by 64 */
+	__raw_writel(BF_PWM_PERIODn_CDIV(2) |		/* divide by 64 */
 		     BF_PWM_PERIODn_INACTIVE_STATE(2) |	/* low */
 		     BF_PWM_PERIODn_ACTIVE_STATE(3) |	/* high */
 		     BF_PWM_PERIODn_PERIOD(599),
