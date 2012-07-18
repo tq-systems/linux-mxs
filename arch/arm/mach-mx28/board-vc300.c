@@ -240,8 +240,9 @@ static struct export_gpio vc300_gpios[] = {
 	{ MXS_PIN_TO_GPIO(PINID_LCD_D10),     GPIOF_OUT_INIT_HIGH, "Linux SVC",                0, 1 }, /* GPIO  42 */
 	{ MXS_PIN_TO_GPIO(PINID_LCD_D11),     GPIOF_OUT_INIT_LOW,  "Linux On",                 0, 0 }, /* GPIO  43 */
 	{ MXS_PIN_TO_GPIO(PINID_LCD_D12),     GPIOF_OUT_INIT_HIGH, "FT5000 Reset",             0, 1 }, /* GPIO  44 */
-	{ MXS_PIN_TO_GPIO(PINID_LCD_D20),     GPIOF_IN,            "Modem Detection 0x01",     0, 0 }, /* GPIO  52 */
-	{ MXS_PIN_TO_GPIO(PINID_LCD_D21),     GPIOF_IN,            "Modem Detection 0x02",     0, 0 }, /* GPIO  53 */
+	{ MXS_PIN_TO_GPIO(PINID_LCD_D20),     GPIOF_OUT_INIT_HIGH, "Modem Reset",              0, 1 }, /* GPIO  52 */
+	{ MXS_PIN_TO_GPIO(PINID_LCD_D21),     GPIOF_IN,            "Modem Detection 0x01",     0, 0 }, /* GPIO  53 */
+	{ MXS_PIN_TO_GPIO(PINID_LCD_D22),     GPIOF_IN,            "Modem Detection 0x02",     0, 0 }, /* GPIO  54 */
 	{ MXS_PIN_TO_GPIO(PINID_LCD_WR_RWN),  GPIOF_OUT_INIT_LOW,  "Modem Power Switch",       0, 0 }, /* GPIO  57 */
 	{ MXS_PIN_TO_GPIO(PINID_SSP0_DETECT), GPIOF_IN,            "Digital Input 1",          0, 1 }, /* GPIO  73 */
 	{ MXS_PIN_TO_GPIO(PINID_GPMI_RESETN), GPIOF_IN,            "Digital Input 2",          0, 1 }, /* GPIO  28 */
