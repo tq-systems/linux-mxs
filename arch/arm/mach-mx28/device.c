@@ -56,7 +56,7 @@ static struct resource duart_resource[] = {
 	{
 	 .flags = IORESOURCE_MEM,
 	 .start = DUART_PHYS_ADDR,
-	 .end = DUART_PHYS_ADDR + 0x1000 - 1,
+	 .end = DUART_PHYS_ADDR + 0x2000 - 1,
 	 },
 	{
 	 .flags = IORESOURCE_IRQ,
