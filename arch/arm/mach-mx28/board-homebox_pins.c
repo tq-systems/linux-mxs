@@ -74,38 +74,6 @@ static struct pin_desc homebox_fixed_pins[] = {
 		.voltage = PAD_3_3V,
 		.drive = 1,
 	},
-	/* VCC 3V3 disable pin */
-	{
-		.name = "VCC3V3.DISABLEN",
-		.id = PINID_PWM4,
-		.fun = PIN_GPIO,
-		.data = 1,
-		.output = 1,
-	},
-	/* CMS disable pin */
-	{
-		.name = "CMS.DISABLEN",
-		.id = PINID_SAIF1_SDATA0,
-		.fun = PIN_GPIO,
-		.data = 1,
-		.output = 1,
-	},
-	/* IMEAS disable pin */
-	{
-		.name = "IMEAS.DISABLEN",
-		.id = PINID_SSP2_SS2,
-		.fun = PIN_GPIO,
-		.data = 1,
-		.output = 1,
-	},
-	/* WLAN disable pin */
-	{
-		.name = "WLAN.DISABLEN",
-		.id = PINID_GPMI_CLE,
-		.fun = PIN_GPIO,
-		.data = 1,
-		.output = 1,
-	},
 	/* USB power enable pin */
 	{
 		.name = "USB0.ENABLE",
