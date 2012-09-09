@@ -79,15 +79,23 @@ static void __init homebox_buttons_init(void)
                  .name = "homebox:" color ":" func, \
                  .default_trigger = trigger, .active_low = activelow }
 
-static struct gpio_led homebox_leds[] = {
+static struct gpio_led homebox_leds_hw0100[] = {
 	DEFINE_LED(PINID_GPMI_RDY0, "red",    "error",  "none",       0),
 	DEFINE_LED(PINID_GPMI_RDN,  "yellow", "status", "none",       0),
 	DEFINE_LED(PINID_GPMI_ALE,  "green",  "power",  "default-on", 0),
 };
 
+static struct gpio_led homebox_leds_hw0200[] = {
+	DEFINE_LED(PINID_LCD_D18, "green", "status",  "none", 0),
+	DEFINE_LED(PINID_LCD_D19, "red",   "status",  "none", 0),
+	DEFINE_LED(PINID_LCD_D20, "green", "network", "none", 0),
+	DEFINE_LED(PINID_LCD_D21, "red",   "network", "none", 0),
+	DEFINE_LED(PINID_LCD_D22, "green", "sensor",  "none", 0),
+	DEFINE_LED(PINID_LCD_D23, "red",   "sensor",  "none", 0),
+};
+
 static struct gpio_led_platform_data homebox_led_pdata = {
-	.num_leds = ARRAY_SIZE(homebox_leds),
-	.leds = homebox_leds,
+	/* filled at runtime since we have to detect hw rev */
 };
 
 static struct platform_device homebox_led_device = {
@@ -100,6 +108,9 @@ static struct platform_device homebox_led_device = {
 
 static void __init homebox_leds_init(void)
 {
+	homebox_led_pdata.num_leds = ARRAY_SIZE(homebox_leds_hw0100);
+	homebox_led_pdata.leds = homebox_leds_hw0100;
+
 	platform_device_register(&homebox_led_device);
 }
 
