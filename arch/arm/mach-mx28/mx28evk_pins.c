@@ -130,6 +130,16 @@ static struct pin_desc mx28evk_fixed_pins[] = {
 	 .data  = 1,
 	 .output = 1,
 	 },
+	 {
+	 .name  = "usb0_overcurrent",
+	 .id    = PINID_SSP2_SS2,
+	 .fun   = PIN_FUN3,
+	 },
+	 {
+	 .name  = "usb1_overcurrent",
+	 .id    = PINID_SSP2_SS1,
+	 .fun   = PIN_FUN3,
+	 },
 
 #if defined(CONFIG_USB_OTG)
 	 {
