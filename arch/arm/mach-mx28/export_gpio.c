@@ -20,12 +20,17 @@ int export_gpios(struct export_gpio *array, size_t num)
 			goto err_free;
 
 		err = gpio_export(array->gpio, array->direction_may_change);
-		if (err)
+		if (err) {
+			gpio_free(array->gpio);
 			goto err_free;
+		}
 
 		err = gpio_sysfs_set_active_low(array->gpio, array->active_low);
-		if (err)
+		if (err) {
+			gpio_unexport(array->gpio);
+			gpio_free(array->gpio);
 			goto err_free;
+		}
 	}
 	return 0;
 
