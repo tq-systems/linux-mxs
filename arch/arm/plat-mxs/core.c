@@ -20,6 +20,7 @@
 #include <linux/init.h>
 #include <linux/io.h>
 #include <linux/err.h>
+#include <linux/module.h>
 
 #include <asm/proc-fns.h>
 
@@ -135,3 +136,4 @@ int mxs_reset_block(void __iomem *hwreg, int just_enable)
 	}
 	return r;
 }
+EXPORT_SYMBOL(mxs_reset_block);
