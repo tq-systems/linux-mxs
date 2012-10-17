@@ -53,13 +53,6 @@ static struct gpio_button homebox_gpio_buttons[] = {
 		.desc = "Teach-In",
 		.active_low = 1,
 	},
-	{
-		.type = EV_KEY,
-		.code = KEY_F9,
-		.gpio = MXS_PIN_TO_GPIO(PINID_SAIF0_SDATA0),
-		.desc = "CMS Power Fault",
-		.active_low = 1,
-	},
 };
 
 static struct gpio_buttons_platform_data homebox_gpio_buttons_platform_data = {
