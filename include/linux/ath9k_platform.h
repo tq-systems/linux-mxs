@@ -23,6 +23,22 @@
 
 struct ath9k_platform_data {
 	u16 eeprom_data[ATH9K_PLAT_EEP_MAX_WORDS];
+	u8 *macaddr;
+
+	int led_pin;
+	u32 gpio_mask;
+	u32 gpio_val;
+
+	bool endian_check;
+	bool is_clk_25mhz;
+	bool disable_2ghz;
+	bool disable_5ghz;
+
+	int (*get_mac_revision)(void);
+	int (*external_reset)(void);
+
+	int num_leds;
+	const struct gpio_led *leds;
 };
 
 #endif /* _LINUX_ATH9K_PLATFORM_H */
