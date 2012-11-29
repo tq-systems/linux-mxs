@@ -1324,11 +1324,14 @@ fec_restart(struct net_device *dev, int duplex)
 	u32 temp_mac[2];
 	unsigned long reg;
 	int val;
+	int prom;
 
 #ifdef CONFIG_ARCH_MXS
 	if (pdata && pdata->init)
 		ret = pdata->init();
 #endif
+
+	prom = readl(fep->hwp + FEC_R_CNTRL) & 0x8;
 
 	/* Whack a reset.  We should wait for this. */
 	writel(1, fep->hwp + FEC_ECNTRL);
@@ -1373,11 +1376,11 @@ fec_restart(struct net_device *dev, int duplex)
 	/* Enable MII mode */
 	if (duplex) {
 		/* MII enable / FD enable */
-		writel(OPT_FRAME_SIZE | 0x04, fep->hwp + FEC_R_CNTRL);
+		writel(OPT_FRAME_SIZE | 0x04 | prom, fep->hwp + FEC_R_CNTRL);
 		writel(0x04, fep->hwp + FEC_X_CNTRL);
 	} else {
 		/* MII enable / No Rcv on Xmit */
-		writel(OPT_FRAME_SIZE | 0x06, fep->hwp + FEC_R_CNTRL);
+		writel(OPT_FRAME_SIZE | 0x06 | prom, fep->hwp + FEC_R_CNTRL);
 		writel(0x0, fep->hwp + FEC_X_CNTRL);
 	}
 	fep->full_duplex = duplex;
@@ -1453,6 +1456,7 @@ static void
 fec_stop(struct net_device *dev)
 {
 	struct fec_enet_private *fep = netdev_priv(dev);
+	int prom;
 
 	/* We cannot expect a graceful transmit stop without link !!! */
 	if (fep->link) {
@@ -1461,6 +1465,8 @@ fec_stop(struct net_device *dev)
 		if (!(readl(fep->hwp + FEC_IEVENT) & FEC_ENET_GRA))
 			printk("fec_stop : Graceful transmit stop did not complete !\n");
 	}
+
+	prom = readl(fep->hwp + FEC_R_CNTRL) & 0x8;
 
 	/* Whack a reset.  We should wait for this. */
 	writel(1, fep->hwp + FEC_ECNTRL);
@@ -1472,10 +1478,10 @@ fec_stop(struct net_device *dev)
 
 	/* Check MII or RMII */
 	if (fep->phy_interface == PHY_INTERFACE_MODE_RMII)
-		writel(readl(fep->hwp + FEC_R_CNTRL) | 0x100,
+		writel(readl(fep->hwp + FEC_R_CNTRL) | prom | 0x100,
 					fep->hwp + FEC_R_CNTRL);
 	else
-		writel(readl(fep->hwp + FEC_R_CNTRL) & ~0x100,
+		writel((readl(fep->hwp + FEC_R_CNTRL) | prom) & ~0x100,
 					fep->hwp + FEC_R_CNTRL);
 #endif
 	/* Clear outstanding MII command interrupts. */
