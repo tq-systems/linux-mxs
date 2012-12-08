@@ -45,12 +45,14 @@
 #include "mx28_pins.h"
 #include "board-homebox.h"
 
+extern unsigned int system_rev;
+
 static struct gpio_button homebox_gpio_buttons[] = {
 	{
 		.type = EV_KEY,
-		.code = KEY_F1,
+		.code = KEY_RESTART,
 		.gpio = MXS_PIN_TO_GPIO(PINID_GPMI_CE0N),
-		.desc = "Teach-In",
+		.desc = "Reset",
 		.active_low = 1,
 	},
 };
@@ -79,19 +81,19 @@ static void __init homebox_buttons_init(void)
                  .name = "homebox:" color ":" func, \
                  .default_trigger = trigger, .active_low = activelow }
 
-static struct gpio_led homebox_leds_hw0100[] = {
+static struct gpio_led homebox_leds_rev0100[] = {
 	DEFINE_LED(PINID_GPMI_RDY0, "red",    "error",  "none",       0),
 	DEFINE_LED(PINID_GPMI_RDN,  "yellow", "status", "none",       0),
 	DEFINE_LED(PINID_GPMI_ALE,  "green",  "power",  "default-on", 0),
 };
 
-static struct gpio_led homebox_leds_hw0200[] = {
-	DEFINE_LED(PINID_LCD_D18, "green", "status",  "none", 0),
-	DEFINE_LED(PINID_LCD_D19, "red",   "status",  "none", 0),
-	DEFINE_LED(PINID_LCD_D20, "green", "network", "none", 0),
-	DEFINE_LED(PINID_LCD_D21, "red",   "network", "none", 0),
-	DEFINE_LED(PINID_LCD_D22, "green", "sensor",  "none", 0),
-	DEFINE_LED(PINID_LCD_D23, "red",   "sensor",  "none", 0),
+static struct gpio_led homebox_leds_rev0200[] = {
+	DEFINE_LED(PINID_LCD_D18, "green", "power",   "default-on", 0),
+	DEFINE_LED(PINID_LCD_D19, "red",   "power",   "none",       0),
+	DEFINE_LED(PINID_LCD_D20, "green", "network", "none",       0),
+	DEFINE_LED(PINID_LCD_D21, "red",   "network", "none",       0),
+	DEFINE_LED(PINID_LCD_D22, "green", "sensor",  "none",       0),
+	DEFINE_LED(PINID_LCD_D23, "red",   "sensor",  "none",       0),
 };
 
 static struct gpio_led_platform_data homebox_led_pdata = {
@@ -108,8 +110,20 @@ static struct platform_device homebox_led_device = {
 
 static void __init homebox_leds_init(void)
 {
-	homebox_led_pdata.num_leds = ARRAY_SIZE(homebox_leds_hw0100);
-	homebox_led_pdata.leds = homebox_leds_hw0100;
+	switch (system_rev)
+	{
+		/* HW3 REV0100 */
+		case 0x0:
+		case 0x7:
+			homebox_led_pdata.num_leds = ARRAY_SIZE(homebox_leds_rev0100);
+			homebox_led_pdata.leds = homebox_leds_rev0100;
+			break;
+		case 0x5:
+		default:
+			homebox_led_pdata.num_leds = ARRAY_SIZE(homebox_leds_rev0200);
+			homebox_led_pdata.leds = homebox_leds_rev0200;
+			break;
+	}
 
 	platform_device_register(&homebox_led_device);
 }
