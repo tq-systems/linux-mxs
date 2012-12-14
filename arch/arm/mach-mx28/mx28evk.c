@@ -183,11 +183,11 @@ static void __init mx28evk_init_machine(void)
 
 #ifdef CONFIG_MACH_MBA28
 #define BOARD_NAME "TQ MBa28 board with TQMa28 module"
+MACHINE_START(TQMA28, BOARD_NAME)
 #else
 #define BOARD_NAME "Freescale MX28EVK board"
-#endif
-
 MACHINE_START(MX28EVK, BOARD_NAME)
+#endif
 	.phys_io	= 0x80000000,
 	.io_pg_offst	= ((0xf0000000) >> 18) & 0xfffc,
 	.boot_params	= 0x40000100,
