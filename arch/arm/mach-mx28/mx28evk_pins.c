@@ -1213,10 +1213,6 @@ static struct pin_desc mx28evk_spi_pins[] = {
 	|| defined(CONFIG_FEC_L2SWITCH)
 int mx28evk_enet_gpio_init(void)
 {
-	/* pwr */
-	gpio_request(MXS_PIN_TO_GPIO(PINID_SSP1_DATA3), "ENET_PWR");
-	gpio_direction_output(MXS_PIN_TO_GPIO(PINID_SSP1_DATA3), 0);
-
 	/* reset phy */
 	gpio_request(MXS_PIN_TO_GPIO(PINID_ENET0_RX_CLK), "PHY_RESET");
 	gpio_direction_output(MXS_PIN_TO_GPIO(PINID_ENET0_RX_CLK), 0);
@@ -1235,7 +1231,6 @@ int mx28evk_enet_gpio_init(void)
 void mx28evk_enet_io_lowerpower_enter(void)
 {
 	int i;
-	gpio_direction_output(MXS_PIN_TO_GPIO(PINID_SSP1_DATA3), 1);
 	gpio_direction_output(MXS_PIN_TO_GPIO(PINID_ENET0_RX_CLK), 0);
 	gpio_request(MXS_PIN_TO_GPIO(PINID_ENET0_TX_CLK), "ETH_INT");
 	gpio_direction_output(MXS_PIN_TO_GPIO(PINID_ENET0_TX_CLK), 0);
@@ -1254,7 +1249,6 @@ void mx28evk_enet_io_lowerpower_enter(void)
 void mx28evk_enet_io_lowerpower_exit(void)
 {
 	int i;
-	gpio_direction_output(MXS_PIN_TO_GPIO(PINID_SSP1_DATA3), 0);
 	gpio_direction_output(MXS_PIN_TO_GPIO(PINID_ENET0_RX_CLK), 1);
 	gpio_free(MXS_PIN_TO_GPIO(PINID_ENET0_TX_CLK));
 	for (i = 0; i < ARRAY_SIZE(mx28evk_eth_pins); i++) {
