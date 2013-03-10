@@ -19,6 +19,7 @@
 
 #include <linux/mtd/mtd.h>
 #include <linux/mtd/compatmac.h>
+#include <linux/mtd/partitions.h>
 
 #include <asm/uaccess.h>
 
@@ -826,6 +827,13 @@ static int mtd_ioctl(struct file *file, u_int cmd, u_long arg)
 		file->f_pos = 0;
 		break;
 	}
+#ifdef CONFIG_MTD_PARTITIONS
+	case MTDREFRESH:
+	{
+		ret = refresh_mtd_partitions(mtd);
+		break;
+	}
+#endif
 
 	default:
 		ret = -ENOTTY;
