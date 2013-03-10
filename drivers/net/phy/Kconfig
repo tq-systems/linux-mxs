@@ -93,6 +93,11 @@ config MICREL_PHY
 	---help---
 	  Supports the KSZ9021, VSC8201, KS8001 PHYs.
 
+config ADM6996_PHY
+	tristate "Driver for ADM6996 switches"
+	---help---
+	  Currently supports the ADM6996F switch
+
 config FIXED_PHY
 	bool "Driver for MDIO Bus/PHY emulation with fixed speed/link PHYs"
 	depends on PHYLIB=y
