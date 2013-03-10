@@ -186,6 +186,9 @@
 #define PORT_ALTERA_JTAGUART	91
 #define PORT_ALTERA_UART	92
 
+/* SC16IS7x2 SPI UART */
+#define PORT_SC16IS7X2	93
+
 #ifdef __KERNEL__
 
 #include <linux/compiler.h>
