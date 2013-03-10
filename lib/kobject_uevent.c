@@ -49,6 +49,18 @@ static const char *kobject_actions[] = {
 	[KOBJ_OFFLINE] =	"offline",
 };
 
+u64 uevent_next_seqnum(void)
+{
+	u64 seq;
+
+	spin_lock(&sequence_lock);
+	seq = ++uevent_seqnum;
+	spin_unlock(&sequence_lock);
+
+	return seq;
+}
+EXPORT_SYMBOL_GPL(uevent_next_seqnum);
+
 /**
  * kobject_action_type - translate action string to numeric type
  *
@@ -244,9 +256,7 @@ int kobject_uevent_env(struct kobject *kobj, enum kobject_action action,
 		kobj->state_remove_uevent_sent = 1;
 
 	/* we will send an event, so request a new sequence number */
-	spin_lock(&sequence_lock);
-	seq = ++uevent_seqnum;
-	spin_unlock(&sequence_lock);
+	seq = uevent_next_seqnum();
 	retval = add_uevent_var(env, "SEQNUM=%llu", (unsigned long long)seq);
 	if (retval)
 		goto exit;
