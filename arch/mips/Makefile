@@ -49,7 +49,9 @@ ifneq ($(SUBARCH),$(ARCH))
 endif
 
 ifndef CONFIG_FUNCTION_TRACER
-cflags-y := -ffunction-sections
+  ifndef CONFIG_PROFILING
+    cflags-y := -ffunction-sections
+  endif
 endif
 ifdef CONFIG_FUNCTION_GRAPH_TRACER
   ifndef KBUILD_MCOUNT_RA_ADDRESS
