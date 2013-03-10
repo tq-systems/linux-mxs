@@ -29,6 +29,8 @@ struct sockaddr_ll {
 /* These ones are invisible by user level */
 #define PACKET_LOOPBACK		5		/* MC/BRD frame looped back */
 #define PACKET_FASTROUTE	6		/* Fastrouted frame	*/
+#define PACKET_MASK_ANY		0xffffffff	/* mask for packet type bits */
+
 
 /* Packet socket options */
 
@@ -48,6 +50,7 @@ struct sockaddr_ll {
 #define PACKET_LOSS			14
 #define PACKET_VNET_HDR			15
 #define PACKET_TX_TIMESTAMP		16
+#define PACKET_RECV_TYPE		17
 
 struct tpacket_stats {
 	unsigned int	tp_packets;
