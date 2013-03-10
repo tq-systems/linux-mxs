@@ -385,6 +385,35 @@ static int ssb_device_uevent(struct device *dev, struct kobj_uevent_env *env)
 			     ssb_dev->id.revision);
 }
 
+#define ssb_config_attr(attrib, field, format_string) \
+static ssize_t \
+attrib##_show(struct device *dev, struct device_attribute *attr, char *buf) \
+{ \
+	return sprintf(buf, format_string, dev_to_ssb_dev(dev)->field); \
+}
+
+ssb_config_attr(core_num, core_index, "%u\n")
+ssb_config_attr(coreid, id.coreid, "0x%04x\n")
+ssb_config_attr(vendor, id.vendor, "0x%04x\n")
+ssb_config_attr(revision, id.revision, "%u\n")
+ssb_config_attr(irq, irq, "%u\n")
+static ssize_t
+name_show(struct device *dev, struct device_attribute *attr, char *buf)
+{
+	return sprintf(buf, "%s\n",
+		       ssb_core_name(dev_to_ssb_dev(dev)->id.coreid));
+}
+
+static struct device_attribute ssb_device_attrs[] = {
+	__ATTR_RO(name),
+	__ATTR_RO(core_num),
+	__ATTR_RO(coreid),
+	__ATTR_RO(vendor),
+	__ATTR_RO(revision),
+	__ATTR_RO(irq),
+	__ATTR_NULL,
+};
+
 static struct bus_type ssb_bustype = {
 	.name		= "ssb",
 	.match		= ssb_bus_match,
@@ -394,6 +423,7 @@ static struct bus_type ssb_bustype = {
 	.suspend	= ssb_device_suspend,
 	.resume		= ssb_device_resume,
 	.uevent		= ssb_device_uevent,
+	.dev_attrs	= ssb_device_attrs,
 };
 
 static void ssb_buses_lock(void)
@@ -486,6 +516,7 @@ static int ssb_devices_register(struct ssb_bus *bus)
 #ifdef CONFIG_SSB_PCIHOST
 			sdev->irq = bus->host_pci->irq;
 			dev->parent = &bus->host_pci->dev;
+			sdev->dma_dev = dev->parent;
 #endif
 			break;
 		case SSB_BUSTYPE_PCMCIA:
@@ -501,6 +532,7 @@ static int ssb_devices_register(struct ssb_bus *bus)
 			break;
 		case SSB_BUSTYPE_SSB:
 			dev->dma_mask = &dev->coherent_dma_mask;
+			sdev->dma_dev = dev;
 			break;
 		}
 
@@ -1162,10 +1194,10 @@ void ssb_device_enable(struct ssb_device *dev, u32 core_specific_flags)
 }
 EXPORT_SYMBOL(ssb_device_enable);
 
-/* Wait for a bit in a register to get set or unset.
+/* Wait for bitmask in a register to get set or cleared.
  * timeout is in units of ten-microseconds */
-static int ssb_wait_bit(struct ssb_device *dev, u16 reg, u32 bitmask,
-			int timeout, int set)
+static int ssb_wait_bits(struct ssb_device *dev, u16 reg, u32 bitmask,
+			 int timeout, int set)
 {
 	int i;
 	u32 val;
@@ -1173,7 +1205,7 @@ static int ssb_wait_bit(struct ssb_device *dev, u16 reg, u32 bitmask,
 	for (i = 0; i < timeout; i++) {
 		val = ssb_read32(dev, reg);
 		if (set) {
-			if (val & bitmask)
+			if ((val & bitmask) == bitmask)
 				return 0;
 		} else {
 			if (!(val & bitmask))
@@ -1190,20 +1222,38 @@ static int ssb_wait_bit(struct ssb_device *dev, u16 reg, u32 bitmask,
 
 void ssb_device_disable(struct ssb_device *dev, u32 core_specific_flags)
 {
-	u32 reject;
+	u32 reject, val;
 
 	if (ssb_read32(dev, SSB_TMSLOW) & SSB_TMSLOW_RESET)
 		return;
 
 	reject = ssb_tmslow_reject_bitmask(dev);
-	ssb_write32(dev, SSB_TMSLOW, reject | SSB_TMSLOW_CLOCK);
-	ssb_wait_bit(dev, SSB_TMSLOW, reject, 1000, 1);
-	ssb_wait_bit(dev, SSB_TMSHIGH, SSB_TMSHIGH_BUSY, 1000, 0);
-	ssb_write32(dev, SSB_TMSLOW,
-		    SSB_TMSLOW_FGC | SSB_TMSLOW_CLOCK |
-		    reject | SSB_TMSLOW_RESET |
-		    core_specific_flags);
-	ssb_flush_tmslow(dev);
+
+	if (ssb_read32(dev, SSB_TMSLOW) & SSB_TMSLOW_CLOCK) {
+		ssb_write32(dev, SSB_TMSLOW, reject | SSB_TMSLOW_CLOCK);
+		ssb_wait_bits(dev, SSB_TMSLOW, reject, 1000, 1);
+		ssb_wait_bits(dev, SSB_TMSHIGH, SSB_TMSHIGH_BUSY, 1000, 0);
+
+		if (ssb_read32(dev, SSB_IDLOW) & SSB_IDLOW_INITIATOR) {
+			val = ssb_read32(dev, SSB_IMSTATE);
+			val |= SSB_IMSTATE_REJECT;
+			ssb_write32(dev, SSB_IMSTATE, val);
+			ssb_wait_bits(dev, SSB_IMSTATE, SSB_IMSTATE_BUSY, 1000,
+				      0);
+		}
+
+		ssb_write32(dev, SSB_TMSLOW,
+			SSB_TMSLOW_FGC | SSB_TMSLOW_CLOCK |
+			reject | SSB_TMSLOW_RESET |
+			core_specific_flags);
+		ssb_flush_tmslow(dev);
+
+		if (ssb_read32(dev, SSB_IDLOW) & SSB_IDLOW_INITIATOR) {
+			val = ssb_read32(dev, SSB_IMSTATE);
+			val &= ~SSB_IMSTATE_REJECT;
+			ssb_write32(dev, SSB_IMSTATE, val);
+		}
+	}
 
 	ssb_write32(dev, SSB_TMSLOW,
 		    reject | SSB_TMSLOW_RESET |
@@ -1225,80 +1275,6 @@ u32 ssb_dma_translation(struct ssb_device *dev)
 	return 0;
 }
 EXPORT_SYMBOL(ssb_dma_translation);
-
-int ssb_dma_set_mask(struct ssb_device *dev, u64 mask)
-{
-#ifdef CONFIG_SSB_PCIHOST
-	int err;
-#endif
-
-	switch (dev->bus->bustype) {
-	case SSB_BUSTYPE_PCI:
-#ifdef CONFIG_SSB_PCIHOST
-		err = pci_set_dma_mask(dev->bus->host_pci, mask);
-		if (err)
-			return err;
-		err = pci_set_consistent_dma_mask(dev->bus->host_pci, mask);
-		return err;
-#endif
-	case SSB_BUSTYPE_SSB:
-		return dma_set_mask(dev->dev, mask);
-	default:
-		__ssb_dma_not_implemented(dev);
-	}
-	return -ENOSYS;
-}
-EXPORT_SYMBOL(ssb_dma_set_mask);
-
-void * ssb_dma_alloc_consistent(struct ssb_device *dev, size_t size,
-				dma_addr_t *dma_handle, gfp_t gfp_flags)
-{
-	switch (dev->bus->bustype) {
-	case SSB_BUSTYPE_PCI:
-#ifdef CONFIG_SSB_PCIHOST
-		if (gfp_flags & GFP_DMA) {
-			/* Workaround: The PCI API does not support passing
-			 * a GFP flag. */
-			return dma_alloc_coherent(&dev->bus->host_pci->dev,
-						  size, dma_handle, gfp_flags);
-		}
-		return pci_alloc_consistent(dev->bus->host_pci, size, dma_handle);
-#endif
-	case SSB_BUSTYPE_SSB:
-		return dma_alloc_coherent(dev->dev, size, dma_handle, gfp_flags);
-	default:
-		__ssb_dma_not_implemented(dev);
-	}
-	return NULL;
-}
-EXPORT_SYMBOL(ssb_dma_alloc_consistent);
-
-void ssb_dma_free_consistent(struct ssb_device *dev, size_t size,
-			     void *vaddr, dma_addr_t dma_handle,
-			     gfp_t gfp_flags)
-{
-	switch (dev->bus->bustype) {
-	case SSB_BUSTYPE_PCI:
-#ifdef CONFIG_SSB_PCIHOST
-		if (gfp_flags & GFP_DMA) {
-			/* Workaround: The PCI API does not support passing
-			 * a GFP flag. */
-			dma_free_coherent(&dev->bus->host_pci->dev,
-					  size, vaddr, dma_handle);
-			return;
-		}
-		pci_free_consistent(dev->bus->host_pci, size,
-				    vaddr, dma_handle);
-		return;
-#endif
-	case SSB_BUSTYPE_SSB:
-		dma_free_coherent(dev->dev, size, vaddr, dma_handle);
-		return;
-	default:
-		__ssb_dma_not_implemented(dev);
-	}
-}
-EXPORT_SYMBOL(ssb_dma_free_consistent);
 
 int ssb_bus_may_powerdown(struct ssb_bus *bus)
 {
