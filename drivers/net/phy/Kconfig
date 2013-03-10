@@ -104,6 +104,10 @@ config ADM6996_PHY
 	---help---
 	  Currently supports the ADM6996F switch
 
+config PSB6970_PHY
+	tristate "Driver for Lantiq PSB6970 (Tantos) switch"
+	select SWCONFIG
+
 config MVSWITCH_PHY
 	tristate "Driver for Marvell 88E6060 switches"
 

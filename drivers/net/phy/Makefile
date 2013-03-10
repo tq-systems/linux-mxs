@@ -15,6 +15,7 @@ obj-$(CONFIG_BROADCOM_PHY)	+= broadcom.o
 obj-$(CONFIG_BCM63XX_PHY)	+= bcm63xx.o
 obj-$(CONFIG_ICPLUS_PHY)	+= icplus.o
 obj-$(CONFIG_ADM6996_PHY)	+= adm6996.o
+obj-$(CONFIG_PSB6970_PHY)	+= psb6970.o
 obj-$(CONFIG_MVSWITCH_PHY)	+= mvswitch.o
 obj-$(CONFIG_IP17XX_PHY)	+= ip17xx.o
 obj-$(CONFIG_REALTEK_PHY)	+= realtek.o
