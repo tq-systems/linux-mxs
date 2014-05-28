@@ -335,6 +335,12 @@ static void __init m28cu3_init(void)
 	update_fec_mac_prop(OUI_DENX);
 }
 
+static void __init tqma28_init(void)
+{
+	enable_clk_enet_out();
+	/* TODO: update_fec_mac_prop(OUI_TQS); */
+}
+
 static const char __init *mxs_get_soc_id(void)
 {
 	struct device_node *np;
@@ -464,6 +470,8 @@ static void __init mxs_machine_init(void)
 		crystalfontz_init();
 	else if (of_machine_is_compatible("msr,m28cu3"))
 		m28cu3_init();
+	else if (of_machine_is_compatible("tqs,tqma28"))
+		tqma28_init();
 
 	of_platform_populate(NULL, of_default_bus_match_table,
 			     NULL, parent);
