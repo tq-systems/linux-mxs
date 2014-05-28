@@ -69,7 +69,6 @@
 			regulator-name = "vddio-sd0";
 			regulator-min-microvolt = <3300000>;
 			regulator-max-microvolt = <3300000>;
-			gpio = <&gpio3 28 0>;
 		};
 	};
 };
