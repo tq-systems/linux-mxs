@@ -185,6 +185,11 @@
 					VDDIO-supply = <&reg_3p3v>;
 					VDDD-supply = <&reg_3p3v>;
 				};
+
+				lm73@49 {
+					compatible = "national,lm73";
+					reg = <0x49>;
+				};
 			};
 
 			pwm: pwm@80064000 {
