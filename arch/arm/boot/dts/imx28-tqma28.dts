@@ -190,6 +190,12 @@
 					compatible = "national,lm73";
 					reg = <0x49>;
 				};
+
+				24c64@50 {
+					compatible = "at,24c64";
+					reg = <0x50>;
+					pagesize = <32>;
+				};
 			};
 
 			pwm: pwm@80064000 {
