@@ -498,6 +498,7 @@ static void mxs_restart(enum reboot_mode mode, const char *cmd)
 static const char *mxs_dt_compat[] __initdata = {
 	"fsl,imx28",
 	"fsl,imx23",
+	"tqs,tqma28",
 	NULL,
 };
 
