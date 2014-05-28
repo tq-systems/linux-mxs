@@ -28,6 +28,16 @@
 				vmmc-supply = <&reg_vddio_sd0>;
 				status = "okay";
 			};
+
+			pinctrl@80018000 {
+				mmc0_8bit_pins_a: mmc0-8bit@0 {
+					fsl,drive-strength = <0>;
+				};
+
+				mmc0_sck_cfg: mmc0-sck-cfg {
+					fsl,voltage = <1>;
+				};
+			};
 		};
 
 		apbx@80040000 {
