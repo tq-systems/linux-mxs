@@ -484,4 +484,11 @@ static inline unsigned int mmc_host_clk_rate(struct mmc_host *host)
 	return host->ios.clock;
 }
 #endif
+
+#ifdef CONFIG_MMC_SLOTINDEX
+#define NAMEIDX (card->host->index)
+#else
+#define NAMEIDX (md->name_idx)
+#endif
+
 #endif /* LINUX_MMC_HOST_H */
