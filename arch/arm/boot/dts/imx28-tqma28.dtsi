@@ -9,7 +9,7 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-/include/ "imx28.dtsi"
+#include "imx28.dtsi"
 
 / {
 	memory {
