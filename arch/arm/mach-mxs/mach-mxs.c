@@ -342,7 +342,6 @@ static void __init tqma28_init(void)
 	void __iomem *addr;
 	struct clk *ref_pix, *lcdif_sel;
 
-	enable_clk_enet_out();
 	/* TODO: update_fec_mac_prop(OUI_TQS); */
 	lcdif_sel = clk_get_sys(NULL, "lcdif_sel");
 	ref_pix = clk_get_sys(NULL, "ref_pix");
