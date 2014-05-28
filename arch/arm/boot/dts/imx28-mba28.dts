@@ -230,6 +230,7 @@
 			vbus-supply = <&reg_usb0_vbus>;
 			pinctrl-names = "default";
 			pinctrl-0 = <&usbphy0_pins_a>;
+			dr_mode = "host";
 			status = "okay";
 		};
 
