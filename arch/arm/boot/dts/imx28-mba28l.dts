@@ -128,6 +128,20 @@
 					VDDD-supply = <&reg_3p3v>;
 				};
 
+				gpioext0: pca9554@20 {
+					compatible = "pca9554";
+					reg = <0x20>;
+					#gpio-cells = <2>;
+					gpio-controller;
+				};
+
+				gpioext1: pca9554@21 {
+					compatible = "pca9554";
+					reg = <0x21>;
+					#gpio-cells = <2>;
+					gpio-controller;
+				};
+
 				lm73@4a {
 					compatible = "national,lm73";
 					reg = <0x4a>;
