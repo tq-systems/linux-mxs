@@ -157,6 +157,7 @@ enum mac_oui {
 	OUI_FSL,
 	OUI_DENX,
 	OUI_CRYSTALFONTZ,
+	OUI_TQS,
 };
 
 static void __init update_fec_mac_prop(enum mac_oui oui)
@@ -210,6 +211,11 @@ static void __init update_fec_mac_prop(enum mac_oui oui)
 			macaddr[0] = 0x58;
 			macaddr[1] = 0xb9;
 			macaddr[2] = 0xe1;
+			break;
+		case OUI_TQS:
+			macaddr[0] = 0x00;
+			macaddr[1] = 0xd0;
+			macaddr[2] = 0x93;
 			break;
 		}
 		val = ocotp[i];
@@ -342,7 +348,8 @@ static void __init tqma28_init(void)
 	void __iomem *addr;
 	struct clk *ref_pix, *lcdif_sel;
 
-	/* TODO: update_fec_mac_prop(OUI_TQS); */
+	update_fec_mac_prop(OUI_TQS);
+
 	lcdif_sel = clk_get_sys(NULL, "lcdif_sel");
 	ref_pix = clk_get_sys(NULL, "ref_pix");
 	if (IS_ERR(lcdif_sel) || IS_ERR(ref_pix))
