@@ -34,32 +34,32 @@
 				mmc0_8bit_pins_b: mmc0-8bit@0 {
 					reg = <0>;
 					fsl,pinmux-ids = <
-						0x2000 /* MX28_PAD_SSP0_DATA0__SSP0_D0 */
-						0x2010 /* MX28_PAD_SSP0_DATA1__SSP0_D1 */
-						0x2020 /* MX28_PAD_SSP0_DATA2__SSP0_D2 */
-						0x2030 /* MX28_PAD_SSP0_DATA3__SSP0_D3 */
-						0x2040 /* MX28_PAD_SSP0_DATA4__SSP0_D4 */
-						0x2050 /* MX28_PAD_SSP0_DATA5__SSP0_D5 */
-						0x2060 /* MX28_PAD_SSP0_DATA6__SSP0_D6 */
-						0x2070 /* MX28_PAD_SSP0_DATA7__SSP0_D7 */
+						MX28_PAD_SSP0_DATA0__SSP0_D0
+						MX28_PAD_SSP0_DATA1__SSP0_D1
+						MX28_PAD_SSP0_DATA2__SSP0_D2
+						MX28_PAD_SSP0_DATA3__SSP0_D3
+						MX28_PAD_SSP0_DATA4__SSP0_D4
+						MX28_PAD_SSP0_DATA5__SSP0_D5
+						MX28_PAD_SSP0_DATA6__SSP0_D6
+						MX28_PAD_SSP0_DATA7__SSP0_D7
 					>;
-					fsl,drive-strength = <0>;
-					fsl,voltage = <1>;
-					fsl,pull-up = <1>;
+					fsl,drive-strength = <MXS_DRIVE_4mA>;
+					fsl,voltage = <MXS_VOLTAGE_HIGH>;
+					fsl,pull-up = <MXS_PULL_ENABLE>;
 				};
 
 				mmc0_cmd_cfg: mmc0-cmd-cfg {
 					fsl,pinmux-ids = <
-						0x2080 /* MX28_PAD_SSP0_CMD__SSP0_CMD */
+						MX28_PAD_SSP0_CMD__SSP0_CMD
 					>;
-					fsl,drive-strength = <1>;
-					fsl,voltage = <1>;
-					fsl,pull-up = <1>;
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
+					fsl,voltage = <MXS_VOLTAGE_HIGH>;
+					fsl,pull-up = <MXS_PULL_ENABLE>;
 				};
 
 				mmc0_sck_cfg: mmc0-sck-cfg {
-					fsl,drive-strength = <1>;
-					fsl,voltage = <1>;
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
+					fsl,voltage = <MXS_VOLTAGE_HIGH>;
 				};
 			};
 		};

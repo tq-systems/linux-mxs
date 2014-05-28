@@ -9,7 +9,7 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-/include/ "imx28-mba28l-ab.dts"
+#include "imx28-mba28l-ab.dts"
 
 / {
 	model = "TQ Systems TQMa28L-AA on MBa28";
@@ -21,42 +21,35 @@
 				hog_pins_aa: hog-gpios@1 {
 					reg = <0>;
 					fsl,pinmux-ids = <
-						0x30e3 /* MX28_PAD_AUART3_CTS__GPIO_3_14 */
-						0x30f3 /* MX28_PAD_AUART3_RTS__GPIO_3_15 */
-						0x40d3 /* MX28_PAD_ENET0_RX_CLK__GPIO_4_13 */
-						0x4053 /* MX28_PAD_ENET0_TX_CLK__GPIO_4_5 */
+						MX28_PAD_AUART3_CTS__GPIO_3_14
+						MX28_PAD_AUART3_RTS__GPIO_3_15
+						MX28_PAD_ENET0_RX_CLK__GPIO_4_13
+						MX28_PAD_ENET0_TX_CLK__GPIO_4_5
 					>;
-					fsl,drive-strength = <1>;
-					fsl,voltage = <1>;
-					fsl,pull-up = <0>;
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
+					fsl,voltage = <MXS_VOLTAGE_HIGH>;
+					fsl,pull-up = <MXS_PULL_DISABLE>;
 				};
 
-				auart3_2pins_b: auart3-2pins@0 {
-					reg = <0>;
-					fsl,pinmux-ids = <
-						0x30c0 /* MX28_PAD_AUART3_RX__AUART3_RX */
-						0x30d0 /* MX28_PAD_AUART3_TX__AUART3_TX */
-					>;
-					fsl,drive-strength = <1>;
-					fsl,voltage = <1>;
-					fsl,pull-up = <0>;
+				auart3_2pins_b: auart3-2pins@1 {
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
 				};
 
 				auart4_pins_a: auart4@0 {
 					reg = <0>;
 					fsl,pinmux-ids = <
-						0x2181 /* MX28_PAD_SSP3_SCK__AUART4_TX */
-						0x2191 /* MX28_PAD_SSP3_MOSI__AUART4_RX */
-						0x21a1 /* MX28_PAD_SSP3_MISO__AUART4_RTS */
-						0x21b1 /* MX28_PAD_SSP3_SS0__AUART4_CTS */
+						MX28_PAD_SSP3_SCK__AUART4_TX
+						MX28_PAD_SSP3_MOSI__AUART4_RX
+						MX28_PAD_SSP3_MISO__AUART4_RTS
+						MX28_PAD_SSP3_SS0__AUART4_CTS
 					>;
-					fsl,drive-strength = <1>;
-					fsl,voltage = <1>;
-					fsl,pull-up = <0>;
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
+					fsl,voltage = <MXS_VOLTAGE_HIGH>;
+					fsl,pull-up = <MXS_PULL_DISABLE>;
 				};
 
 				i2c1_pins_a: i2c1@0 {
-					fsl,pull-up = <0>;
+					fsl,pull-up = <MXS_PULL_DISABLE>;
 				};
 			};
 

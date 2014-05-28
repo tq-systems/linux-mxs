@@ -10,8 +10,7 @@
  */
 
 /dts-v1/;
-/include/ "imx28.dtsi"
-/include/ "imx28-tqma28l.dtsi"
+#include "imx28-tqma28l.dtsi"
 
 / {
 	model = "TQ Systems TQMa28L-AB on MBa28";
@@ -38,77 +37,77 @@
 				hog_pins_ab: hog-gpios@0 {
 					reg = <0>;
 					fsl,pinmux-ids = <
-						0x0103 /* MX28_PAD_GPMI_CE0N__GPIO_0_16 */
-						0x0143 /* MX28_PAD_GPMI_RDY0__GPIO_0_20 */
-						0x2043 /* MX28_PAD_SSP0_DATA4__GPIO_2_4 */
+						MX28_PAD_GPMI_CE0N__GPIO_0_16
+						MX28_PAD_GPMI_RDY0__GPIO_0_20
+						MX28_PAD_SSP0_DATA4__GPIO_2_4
 					>;
-					fsl,drive-strength = <1>;
-					fsl,voltage = <1>;
-					fsl,pull-up = <0>;
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
+					fsl,voltage = <MXS_VOLTAGE_HIGH>;
+					fsl,pull-up = <MXS_PULL_DISABLE>;
 				};
 
 				auart0_pins_b: auart0@0 {
 					reg = <0>;
 					fsl,pinmux-ids = <
-						0x3000 /* MX28_PAD_AUART0_RX__AUART0_RX */
-						0x3010 /* MX28_PAD_AUART0_TX__AUART0_TX */
-						0x3030 /* MX28_PAD_AUART0_RTS__AUART0_RTS */
+						MX28_PAD_AUART0_RX__AUART0_RX
+						MX28_PAD_AUART0_TX__AUART0_TX
+						MX28_PAD_AUART0_RTS__AUART0_RTS
 					>;
-					fsl,drive-strength = <1>;
-					fsl,voltage = <1>;
-					fsl,pull-up = <0>;
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
+					fsl,voltage = <MXS_VOLTAGE_HIGH>;
+					fsl,pull-up = <MXS_PULL_DISABLE>;
 				};
 
 				lcdif_pins_mba28l: lcdif-evk@0 {
 					reg = <0>;
 					fsl,pinmux-ids = <
-						0x1181 /* MX28_PAD_LCD_RD_E__LCD_VSYNC*/
-						0x1191 /* MX28_PAD_LCD_WR_RWN__LCD_HSYNC */
-						0x11a1 /* MX28_PAD_LCD_RS__LCD_DOTCLK*/
-						0x11b1 /* MX28_PAD_LCD_CS__LCD_ENABLE */
-						0x31e0 /* MX28_PAD_LCD_RESET__LCD_RESET - must be gpio? */
+						MX28_PAD_LCD_RD_E__LCD_VSYNC
+						MX28_PAD_LCD_WR_RWN__LCD_HSYNC
+						MX28_PAD_LCD_RS__LCD_DOTCLK
+						MX28_PAD_LCD_CS__LCD_ENABLE
+						MX28_PAD_LCD_RESET__LCD_RESET /* must be gpio? */
 					>;
-					fsl,drive-strength = <1>;
-					fsl,voltage = <1>;
-					fsl,pull-up = <0>;
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
+					fsl,voltage = <MXS_VOLTAGE_HIGH>;
+					fsl,pull-up = <MXS_PULL_DISABLE>;
 				};
 
 				lcdif_24bit_pins_a: lcdif-24bit@0 {
-					fsl,drive-strength = <1>;
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
 				};
 
 				mmc0_4bit_pins_a: mmc0-4bit@0 {
-					fsl,pull-up = <0>;
+					fsl,pull-up = <MXS_PULL_DISABLE>;
 				};
 
 				mmc0_sck_cfg: mmc0-sck-cfg {
-					fsl,voltage = <1>;
-					fsl,drive-strength = <1>;
-					fsl,pull-up = <1>;
+					fsl,voltage = <MXS_VOLTAGE_HIGH>;
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
+					fsl,pull-up = <MXS_PULL_ENABLE>;
 				};
 
 				i2c0_pins_a: i2c0@0 {
-					fsl,pull-up = <0>;
+					fsl,pull-up = <MXS_PULL_DISABLE>;
 				};
 
 				pwm4_pins_a: pwm4@0 {
-					fsl,drive-strength = <1>;
-					fsl,pull-up = <1>;
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
+					fsl,pull-up = <MXS_PULL_ENABLE>;
 				};
 
 				auart0_pins_a: auart0@0 {
-					fsl,drive-strength = <1>;
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
 				};
 
 				auart1_2pins_a: auart1-2pins@0 {
-					fsl,drive-strength = <1>;
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
 				};
 			};
 
 			lcdif@80030000 {
 				pinctrl-names = "default";
 				pinctrl-0 = <&lcdif_24bit_pins_a
-						&lcdif_pins_mba28l>;
+							 &lcdif_pins_mba28l>;
 				display = <&display>;
 				status = "okay";
 

@@ -9,7 +9,7 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-/include/ "imx28.dtsi"
+#include "imx28.dtsi"
 
 / {
 	memory {
@@ -35,31 +35,31 @@
 				mmc1_8bit_pins_a: mmc1-8bit@0 {
 					reg = <0>;
 					fsl,pinmux-ids = <
-						0x0001 /* MX28_PAD_GPMI_D00__SSP1_D0 */
-						0x0011 /* MX28_PAD_GPMI_D01__SSP1_D1 */
-						0x0021 /* MX28_PAD_GPMI_D02__SSP1_D2 */
-						0x0031 /* MX28_PAD_GPMI_D03__SSP1_D3 */
-						0x0041 /* MX28_PAD_GPMI_D04__SSP1_D4 */
-						0x0051 /* MX28_PAD_GPMI_D05__SSP1_D5 */
-						0x0061 /* MX28_PAD_GPMI_D06__SSP1_D6 */
-						0x0071 /* MX28_PAD_GPMI_D07__SSP1_D7 */
+						MX28_PAD_GPMI_D00__SSP1_D0
+						MX28_PAD_GPMI_D01__SSP1_D1
+						MX28_PAD_GPMI_D02__SSP1_D2
+						MX28_PAD_GPMI_D03__SSP1_D3
+						MX28_PAD_GPMI_D04__SSP1_D4
+						MX28_PAD_GPMI_D05__SSP1_D5
+						MX28_PAD_GPMI_D06__SSP1_D6
+						MX28_PAD_GPMI_D07__SSP1_D7
 					>;
-					fsl,drive-strength = <0>;
-					fsl,voltage = <1>;
-					fsl,pull-up = <1>;
+					fsl,drive-strength = <MXS_DRIVE_4mA>;
+					fsl,voltage = <MXS_VOLTAGE_HIGH>;
+					fsl,pull-up = <MXS_PULL_ENABLE>;
 				};
 
 				mmc1_cmd_cfg: mmc1-cmd-cfg {
 					fsl,pinmux-ids = <
-						0x0151 /* MX28_PAD_GPMI_RDY1__SSP1_CMD */
+						MX28_PAD_GPMI_RDY1__SSP1_CMD
 					>;
-					fsl,drive-strength = <1>;
-					fsl,voltage = <1>;
-					fsl,pull-up = <1>;
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
+					fsl,voltage = <MXS_VOLTAGE_HIGH>;
+					fsl,pull-up = <MXS_PULL_ENABLE>;
 				};
 
 				mmc1_sck_cfg: mmc1-sck-cfg {
-					fsl,voltage = <1>;
+					fsl,voltage = <MXS_VOLTAGE_HIGH>;
 				};
 			};
 		};

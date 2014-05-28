@@ -10,7 +10,6 @@
  */
 
 /dts-v1/;
-#include "imx28.dtsi"
 #include "imx28-tqma28.dtsi"
 
 / {
@@ -38,94 +37,94 @@
 				hog_pins_a: hog-gpios@0 {
 					reg = <0>;
 					fsl,pinmux-ids = <
-						0x40d3 /* MX28_PAD_ENET0_RX_CLK__GPIO_4_13 */
-						0x31e3 /* MX28_PAD_LCD_RESET__GPIO_3_30 */
-						0x3083 /* MX28_PAD_AUART2_RX__GPIO_3_8 */
-						0x3093 /* MX28_PAD_AUART2_TX__GPIO_3_9 */
+						MX28_PAD_ENET0_RX_CLK__GPIO_4_13
+						MX28_PAD_LCD_RESET__GPIO_3_30
+						MX28_PAD_AUART2_RX__GPIO_3_8
+						MX28_PAD_AUART2_TX__GPIO_3_9
 					>;
-					fsl,drive-strength = <1>;
-					fsl,voltage = <1>;
-					fsl,pull-up = <0>;
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
+					fsl,voltage = <MXS_VOLTAGE_HIGH>;
+					fsl,pull-up = <MXS_PULL_DISABLE>;
 				};
 
 				i2c1_pins_b: i2c1@1 {
 					reg = <1>;
 					fsl,pinmux-ids = <
-						0x30a1 /* MX28_PAD_AUART2_CTS__I2C1_SCL */
-						0x30b1 /* MX28_PAD_AUART2_RTS__I2C1_SDA */
+						MX28_PAD_AUART2_CTS__I2C1_SCL
+						MX28_PAD_AUART2_RTS__I2C1_SDA
 					>;
-					fsl,drive-strength = <1>;
-					fsl,voltage = <1>;
-					fsl,pull-up = <0>;
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
+					fsl,voltage = <MXS_VOLTAGE_HIGH>;
+					fsl,pull-up = <MXS_PULL_DISABLE>;
 				};
 
 				lcdif_24bit_pins_a: lcdif-24bit@0 {
-					fsl,drive-strength = <1>;
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
 				};
 
 				lcdif_pins_mba28: lcdif-evk@0 {
 					reg = <0>;
 					fsl,pinmux-ids = <
-						0x11c0 /* MX28_PAD_LCD_VSYNC__LCD_VSYNC */
-						0x11d0 /* MX28_PAD_LCD_HSYNC__LCD_HSYNC */
-						0x11e0 /* MX28_PAD_LCD_DOTCLK__LCD_DOTCLK */
-						0x11f0 /* MX28_PAD_LCD_ENABLE__LCD_ENABLE */
+						MX28_PAD_LCD_VSYNC__LCD_VSYNC
+						MX28_PAD_LCD_HSYNC__LCD_HSYNC
+						MX28_PAD_LCD_DOTCLK__LCD_DOTCLK
+						MX28_PAD_LCD_ENABLE__LCD_ENABLE
 					>;
-					fsl,drive-strength = <1>;
-					fsl,voltage = <1>;
-					fsl,pull-up = <0>;
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
+					fsl,voltage = <MXS_VOLTAGE_HIGH>;
+					fsl,pull-up = <MXS_PULL_DISABLE>;
 				};
 
 				mmc1_4bit_pins_a: mmc1-4bit@0 {
 					reg = <0>;
 					fsl,pinmux-ids = <
-						0x0001 /* MX28_PAD_GPMI_D00__SSP1_D0 */
-						0x0011 /* MX28_PAD_GPMI_D01__SSP1_D1 */
-						0x0021 /* MX28_PAD_GPMI_D02__SSP1_D2 */
-						0x0031 /* MX28_PAD_GPMI_D03__SSP1_D3 */
-						0x0141 /* MX28_PAD_GPMI_RDY0__SSP1_CARD_DETECT */
-						0x0151 /* MX28_PAD_GPMI_RDY1__SSP1_CMD */
-						0x0191 /* MX28_PAD_GPMI_WRN__SSP1_SCK */
+						MX28_PAD_GPMI_D00__SSP1_D0
+						MX28_PAD_GPMI_D01__SSP1_D1
+						MX28_PAD_GPMI_D02__SSP1_D2
+						MX28_PAD_GPMI_D03__SSP1_D3
+						MX28_PAD_GPMI_RDY0__SSP1_CARD_DETECT
+						MX28_PAD_GPMI_RDY1__SSP1_CMD
+						MX28_PAD_GPMI_WRN__SSP1_SCK
 					>;
-					fsl,drive-strength = <1>;
-					fsl,voltage = <1>;
-					fsl,pull-up = <0>;
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
+					fsl,voltage = <MXS_VOLTAGE_HIGH>;
+					fsl,pull-up = <MXS_PULL_DISABLE>;
 				};
 
 				mmc1_cd_cfg: mmc1-cd-cfg {
 					fsl,pinmux-ids = <
-						0x0141 /* MX28_PAD_GPMI_RDY0__SSP1_CARD_DETECT */
+						MX28_PAD_GPMI_RDY0__SSP1_CARD_DETECT
 					>;
-					fsl,pull-up = <0>;
+					fsl,pull-up = <MXS_PULL_DISABLE>;
 				};
 
 				mmc1_sck_cfg: mmc1-sck-cfg {
 					fsl,pinmux-ids = <
-						0x0191 /* MX28_PAD_GPMI_WRN__SSP1_SCK */
+						MX28_PAD_GPMI_WRN__SSP1_SCK
 					>;
-					fsl,voltage = <1>;
-					fsl,drive-strength = <1>;
-					fsl,pull-up = <1>;
+					fsl,voltage = <MXS_VOLTAGE_HIGH>;
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
+					fsl,pull-up = <MXS_PULL_ENABLE>;
 				};
 
 				pwm2_pins_a: pwm2@0 {
-					fsl,drive-strength = <1>;
-					fsl,pull-up = <1>;
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
+					fsl,pull-up = <MXS_PULL_ENABLE>;
 				};
 
 				auart0_pins_a: auart0@0 {
-					fsl,drive-strength = <1>;
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
 				};
 
 				auart3_pins_a: auart3@0 {
-					fsl,drive-strength = <1>;
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
 				};
 			};
 
 			lcdif@80030000 {
 				pinctrl-names = "default";
 				pinctrl-0 = <&lcdif_24bit_pins_a
-						&lcdif_pins_mba28>;
+							 &lcdif_pins_mba28>;
 				display = <&display>;
 				status = "okay";
 
