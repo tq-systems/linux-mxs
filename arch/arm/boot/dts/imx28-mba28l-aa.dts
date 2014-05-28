@@ -26,7 +26,7 @@
 						0x40d3 /* MX28_PAD_ENET0_RX_CLK__GPIO_4_13 */
 						0x4053 /* MX28_PAD_ENET0_TX_CLK__GPIO_4_5 */
 					>;
-					fsl,drive-strength = <0>;
+					fsl,drive-strength = <1>;
 					fsl,voltage = <1>;
 					fsl,pull-up = <0>;
 				};
@@ -37,7 +37,7 @@
 						0x30c0 /* MX28_PAD_AUART3_RX__AUART3_RX */
 						0x30d0 /* MX28_PAD_AUART3_TX__AUART3_TX */
 					>;
-					fsl,drive-strength = <0>;
+					fsl,drive-strength = <1>;
 					fsl,voltage = <1>;
 					fsl,pull-up = <0>;
 				};
@@ -50,8 +50,12 @@
 						0x21a1 /* MX28_PAD_SSP3_MISO__AUART4_RTS */
 						0x21b1 /* MX28_PAD_SSP3_SS0__AUART4_CTS */
 					>;
-					fsl,drive-strength = <0>;
+					fsl,drive-strength = <1>;
 					fsl,voltage = <1>;
+					fsl,pull-up = <0>;
+				};
+
+				i2c1_pins_a: i2c1@0 {
 					fsl,pull-up = <0>;
 				};
 			};

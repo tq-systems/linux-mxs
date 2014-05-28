@@ -42,7 +42,7 @@
 						0x0143 /* MX28_PAD_GPMI_RDY0__GPIO_0_20 */
 						0x2043 /* MX28_PAD_SSP0_DATA4__GPIO_2_4 */
 					>;
-					fsl,drive-strength = <0>;
+					fsl,drive-strength = <1>;
 					fsl,voltage = <1>;
 					fsl,pull-up = <0>;
 				};
@@ -54,7 +54,7 @@
 						0x3010 /* MX28_PAD_AUART0_TX__AUART0_TX */
 						0x3030 /* MX28_PAD_AUART0_RTS__AUART0_RTS */
 					>;
-					fsl,drive-strength = <0>;
+					fsl,drive-strength = <1>;
 					fsl,voltage = <1>;
 					fsl,pull-up = <0>;
 				};
@@ -68,9 +68,37 @@
 						0x11b1 /* MX28_PAD_LCD_CS__LCD_ENABLE */
 						0x31e0 /* MX28_PAD_LCD_RESET__LCD_RESET - must be gpio? */
 					>;
-					fsl,drive-strength = <0>;
+					fsl,drive-strength = <1>;
 					fsl,voltage = <1>;
 					fsl,pull-up = <0>;
+				};
+
+				lcdif_24bit_pins_a: lcdif-24bit@0 {
+					fsl,drive-strength = <1>;
+				};
+
+				mmc0_sck_cfg: mmc0-sck-cfg {
+					fsl,drive-strength = <1>;
+				};
+
+				i2c0_pins_a: i2c0@0 {
+					fsl,pull-up = <0>;
+				};
+
+				pwm4_pins_a: pwm4@0 {
+					fsl,drive-strength = <1>;
+				};
+
+				duart_pins_a: duart@0 {
+					fsl,drive-strength = <1>;
+				};
+
+				auart0_pins_a: auart0@0 {
+					fsl,drive-strength = <1>;
+				};
+
+				auart1_2pins_a: auart1-2pins@0 {
+					fsl,drive-strength = <1>;
 				};
 			};
 
