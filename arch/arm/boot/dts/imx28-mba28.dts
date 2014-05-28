@@ -314,16 +314,6 @@
 		audio-codec = <&sgtl5000>;
 	};
 
-	leds {
-		compatible = "gpio-leds";
-
-		user {
-			label = "Heartbeat";
-			gpios = <&gpio3 5 0>;
-			linux,default-trigger = "heartbeat";
-		};
-	};
-
 	backlight {
 		compatible = "pwm-backlight";
 		pwms = <&pwm 2 5000000>;
