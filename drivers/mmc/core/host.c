@@ -430,6 +430,8 @@ int mmc_of_parse(struct mmc_host *host)
 	if (of_find_property(np, "enable-sdio-wakeup", &len))
 		host->pm_caps |= MMC_PM_WAKE_SDIO_IRQ;
 
+	of_property_read_u32(np, "tq,dsr", &host->dsr);
+
 	return 0;
 
 out:
@@ -496,6 +498,8 @@ struct mmc_host *mmc_alloc_host(int extra, struct device *dev)
 	host->max_req_size = PAGE_CACHE_SIZE;
 	host->max_blk_size = 512;
 	host->max_blk_count = PAGE_CACHE_SIZE / 512;
+
+	host->dsr = 0xffffffff;
 
 	return host;
 

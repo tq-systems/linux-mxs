@@ -69,6 +69,7 @@ void sdhci_get_of_property(struct platform_device *pdev)
 	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
 	const __be32 *clk;
 	u32 bus_width;
+	u32 dsr;
 	int size;
 
 	if (of_device_is_available(np)) {
@@ -107,6 +108,10 @@ void sdhci_get_of_property(struct platform_device *pdev)
 
 		if (of_find_property(np, "enable-sdio-wakeup", NULL))
 			host->mmc->pm_caps |= MMC_PM_WAKE_SDIO_IRQ;
+
+		if (of_find_property(np, "tq,dsr", &dsr))
+			if ((dsr & 0xffff) == dsr)
+				host->mmc->dsr = dsr;
 	}
 }
 #else

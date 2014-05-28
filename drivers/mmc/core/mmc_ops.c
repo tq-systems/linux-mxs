@@ -93,6 +93,25 @@ int mmc_deselect_cards(struct mmc_host *host)
 	return _mmc_select_card(host, NULL);
 }
 
+int mmc_set_dsr(struct mmc_host *host)
+{
+	int err;
+	struct mmc_command cmd = {0};
+
+	BUG_ON(!host);
+
+	cmd.opcode = MMC_SET_DSR;
+
+	cmd.arg = (host->dsr << 16) | 0xffff;
+	cmd.flags = MMC_RSP_NONE | MMC_CMD_AC;
+
+	err = mmc_wait_for_cmd(host, &cmd, MMC_CMD_RETRIES);
+	if (err)
+		return err;
+
+	return 0;
+}
+
 int mmc_go_idle(struct mmc_host *host)
 {
 	int err;
