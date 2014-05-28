@@ -248,6 +248,8 @@ static void __init mx28_clocks_init(struct device_node *np)
 	of_clk_add_provider(np, of_clk_src_onecell_get, &clk_data);
 
 	clk_register_clkdev(clks[enet_out], NULL, "enet_out");
+	clk_register_clkdev(clks[lcdif_sel], "lcdif_sel", NULL);
+	clk_register_clkdev(clks[ref_pix], "ref_pix", NULL);
 
 	for (i = 0; i < ARRAY_SIZE(clks_init_on); i++)
 		clk_prepare_enable(clks[clks_init_on[i]]);

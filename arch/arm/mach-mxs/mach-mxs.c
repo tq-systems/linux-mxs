@@ -340,9 +340,16 @@ static void __init tqma28_init(void)
 	unsigned long oc;
 	struct device_node *np;
 	void __iomem *addr;
+	struct clk *ref_pix, *lcdif_sel;
 
 	enable_clk_enet_out();
 	/* TODO: update_fec_mac_prop(OUI_TQS); */
+	lcdif_sel = clk_get_sys(NULL, "lcdif_sel");
+	ref_pix = clk_get_sys(NULL, "ref_pix");
+	if (IS_ERR(lcdif_sel) || IS_ERR(ref_pix))
+		pr_err("Error on selecting LCD-IF clock.\n");
+	else
+		clk_set_parent(lcdif_sel, ref_pix);
 
 	/*
 	 * enable usb overcurrent detection logic in MX28 HW_DIGCTL_CTRL_SET
