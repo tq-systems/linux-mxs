@@ -14,7 +14,7 @@
 /include/ "imx28-tqma28l.dtsi"
 
 / {
-	model = "TQ Systems MBa28L";
+	model = "TQ Systems TQMa28L on MBa28";
 	compatible = "tqs, mba28", "tqs,tqma28l", "tqs,tqma28", "fsl,imx28";
 
 	apb@80000000 {

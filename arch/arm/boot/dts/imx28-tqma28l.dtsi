@@ -12,9 +12,6 @@
 /include/ "imx28.dtsi"
 
 / {
-	model = "TQ Systems TQMa28L";
-	compatible = "tqs,tqma28l", "fsl,imx28";
-
 	memory {
 		reg = <0x40000000 0x08000000>;
 	};
