@@ -906,6 +906,7 @@ sdhci_esdhc_imx_probe_dt(struct platform_device *pdev,
 			 struct esdhc_platform_data *boarddata)
 {
 	struct device_node *np = pdev->dev.of_node;
+	u32 dsr;
 
 	if (!np)
 		return -ENODEV;
@@ -938,6 +939,13 @@ sdhci_esdhc_imx_probe_dt(struct platform_device *pdev,
 
 	if (of_property_read_u32(np, "fsl,delay-line", &boarddata->delay_line))
 		boarddata->delay_line = 0;
+
+	boarddata->dsr = 0xffffffff;
+	if (!of_property_read_u32(np, "tq,dsr", &dsr)) {
+		dev_info(&pdev->dev, "parsed dsr %x\n", dsr);
+		if ((dsr & 0xffff) == dsr)
+			boarddata->dsr = dsr;
+	}
 
 	return 0;
 }
@@ -1115,6 +1123,9 @@ static int sdhci_esdhc_imx_probe(struct platform_device *pdev)
 	} else {
 		host->quirks2 |= SDHCI_QUIRK2_NO_1_8_V;
 	}
+
+	if (boarddata->dsr)
+		host->mmc->dsr = boarddata->dsr;
 
 	err = sdhci_add_host(host);
 	if (err)
