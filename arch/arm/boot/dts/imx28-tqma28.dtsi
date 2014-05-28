@@ -65,6 +65,20 @@
 		};
 
 		apbx@80040000 {
+			i2c0: i2c@80058000 {
+				pinctrl-names = "default";
+				pinctrl-0 = <&i2c0_pins_a>;
+				status = "okay";
+
+				/* boot eeprom on tqma28.0200 */
+				24c32@50 {
+					compatible = "at,24c32";
+					reg = <0x50>;
+					pagesize = <8>;
+					read-only;
+				};
+			};
+
 			i2c1: i2c@8005a000 {
 				pinctrl-names = "default";
 				pinctrl-0 = <&i2c1_pins_a>;
