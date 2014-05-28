@@ -337,8 +337,23 @@ static void __init m28cu3_init(void)
 
 static void __init tqma28_init(void)
 {
+	unsigned long oc;
+	struct device_node *np;
+	void __iomem *addr;
+
 	enable_clk_enet_out();
 	/* TODO: update_fec_mac_prop(OUI_TQS); */
+
+	/*
+	 * enable usb overcurrent detection logic in MX28 HW_DIGCTL_CTRL_SET
+	 * and set overcurrent polarity to low active
+	 */
+	np = of_find_compatible_node(NULL, NULL, "fsl,imx28-digctl");
+	addr = of_iomap(np, 0);
+	WARN_ON(!addr);
+
+	oc = (0xF << 21);
+	__mxs_setl(oc, addr);
 }
 
 static const char __init *mxs_get_soc_id(void)
