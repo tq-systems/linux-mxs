@@ -23,6 +23,7 @@
 				compatible = "fsl,imx28-mmc";
 				pinctrl-names = "default";
 				pinctrl-0 = <&mmc1_8bit_pins_a
+						&mmc1_cmd_cfg
 						&mmc1_sck_cfg>;
 				bus-width = <8>;
 				non-removable;
@@ -42,9 +43,17 @@
 						0x0051 /* MX28_PAD_GPMI_D05__SSP1_D5 */
 						0x0061 /* MX28_PAD_GPMI_D06__SSP1_D6 */
 						0x0071 /* MX28_PAD_GPMI_D07__SSP1_D7 */
-						0x0151 /* MX28_PAD_GPMI_RDY1__SSP1_CMD */
 					>;
 					fsl,drive-strength = <0>;
+					fsl,voltage = <1>;
+					fsl,pull-up = <1>;
+				};
+
+				mmc1_cmd_cfg: mmc1-cmd-cfg {
+					fsl,pinmux-ids = <
+						0x0151 /* MX28_PAD_GPMI_RDY1__SSP1_CMD */
+					>;
+					fsl,drive-strength = <1>;
 					fsl,voltage = <1>;
 					fsl,pull-up = <1>;
 				};
