@@ -470,6 +470,13 @@ static int mxs_spi_probe(struct platform_device *pdev)
 	 */
 	const int clk_freq_default = 160000000;
 
+	/*
+	 * Transfers with ref_ioX (tested on ssp2 ref_io1) as source
+	 * and SSPx.DIV = 1 report bit 0 identical to bit 1.
+	 * As we need DIV > 1, set an upper limit to parent clock.
+	 */
+	const int clk_ssp_parent_max = 240000000;
+
 	iores = platform_get_resource(pdev, IORESOURCE_MEM, 0);
 	irq_err = platform_get_irq(pdev, 0);
 	if (irq_err < 0)
@@ -524,6 +531,12 @@ static int mxs_spi_probe(struct platform_device *pdev)
 	ret = clk_prepare_enable(ssp->clk);
 	if (ret)
 		goto out_dma_release;
+
+	/* TODO: only apply limit when ref_ioX is the parent clock */
+	if (clk_freq > clk_ssp_parent_max) {
+		dev_warn(ssp->dev, "limiting ssp clock to 240 MHz\n");
+		clk_freq = clk_ssp_parent_max;
+	}
 
 	clk_set_rate(ssp->clk, clk_freq);
 
