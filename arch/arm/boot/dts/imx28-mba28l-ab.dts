@@ -164,6 +164,7 @@
 				sgtl5000: codec@0a {
 					compatible = "fsl,sgtl5000";
 					reg = <0x0a>;
+					clocks = <&saif0>;
 					VDDA-supply = <&reg_3p3v>;
 					VDDIO-supply = <&reg_3p3v>;
 					VDDD-supply = <&reg_3p3v>;
