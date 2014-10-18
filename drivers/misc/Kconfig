@@ -515,6 +515,19 @@ config SRAM
 	  the genalloc API. It is supposed to be used for small on-chip SRAM
 	  areas found on many SoCs.
 
+config FSL_OCOTP
+        tristate "Freescale MXS On-Chip OTP Memory Support"
+        depends on ARCH_MXS && SYSFS
+        help
+          If you say Y here, you will get support for a readonly
+          SysFS interface for the One Time Programmable memory pages that
+          are stored on the Freescale i.MX23/i.MX28 processor.
+
+          To compile this driver as a module, choose M here: the module
+          will be called fsl_ocotp.
+
+          If unsure, it is safe to say N.
+
 source "drivers/misc/c2port/Kconfig"
 source "drivers/misc/eeprom/Kconfig"
 source "drivers/misc/cb710/Kconfig"
