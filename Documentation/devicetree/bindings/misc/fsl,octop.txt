@@ -1,0 +1,14 @@
+On-Chip OTP Memory for Freescale MX23/MX28
+
+Required properties:
+- compatible:
+  - "fsl,imx23-ocotp" for MX23
+  - "fsl,imx23-ocotp" for MX28
+- reg : Address and length of OTP controller registers
+
+Example:
+
+	ocotp: ocotp at 8002c000 {
+		compatible = "fsl,imx28-ocotp", "fsl,ocotp";
+		reg = <0x8002c000 0x2000>;
+	};
