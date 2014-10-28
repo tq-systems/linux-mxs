@@ -58,8 +58,8 @@
 					fsl,pull-up = <MXS_PULL_DISABLE>;
 				};
 
-				i2c1_pins_b: i2c1@1 {
-					reg = <1>;
+				i2c1_pins_b: i2c1@0 {
+					reg = <0>;
 					fsl,pinmux-ids = <
 						MX28_PAD_AUART2_CTS__I2C1_SCL
 						MX28_PAD_AUART2_RTS__I2C1_SDA
@@ -136,10 +136,11 @@
 				pinctrl-names = "default";
 				pinctrl-0 = <&lcdif_24bit_pins_a
 							 &lcdif_pins_mba28>;
-				display = <&display>;
+				lcd-supply = <&reg_dummy_3v3>;
+				display = <&parallel>;
 				status = "okay";
 
-				display: display {
+				parallel: lcd_display {
 					bits-per-pixel = <16>;
 					bus-width = <18>;
 
@@ -167,12 +168,14 @@
 			can0: can@80032000 {
 				pinctrl-names = "default";
 				pinctrl-0 = <&can0_pins_a>;
+				xceiver-supply = <&reg_dummy_3v3>;
 				status = "okay";
 			};
 
 			can1: can@80034000 {
 				pinctrl-names = "default";
 				pinctrl-0 = <&can1_pins_a>;
+				xceiver-supply = <&reg_dummy_3v3>;
 				status = "okay";
 			};
 		};
@@ -298,6 +301,7 @@
 			pinctrl-0 = <&mac0_pins_a>;
 			phy-reset-gpios = <&gpio4 13 0>;
 			phy-reset-duration = <100>;
+			phy-supply = <&reg_dummy_3v3>;
 			status = "okay";
 		};
 
@@ -307,6 +311,7 @@
 			pinctrl-0 = <&mac1_pins_a>;
 			phy-reset-gpios = <&gpio4 13 0>;
 			phy-reset-duration = <100>;
+			phy-supply = <&reg_dummy_3v3>;
 			status = "okay";
 		};
 	};
@@ -330,6 +335,14 @@
 			regulator-max-microvolt = <5000000>;
 			gpio = <&gpio3 8 0>;
 			enable-active-high;
+		};
+
+		reg_dummy_3v3: dummy_3v3 {
+			compatible = "regulator-fixed";
+			regulator-name = "dummy-3v3";
+			regulator-min-microvolt = <3300000>;
+			regulator-max-microvolt = <3300000>;
+			regulator-always-on;
 		};
 	};
 
