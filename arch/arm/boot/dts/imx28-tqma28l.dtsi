@@ -65,6 +65,10 @@
 					fsl,voltage = <MXS_VOLTAGE_HIGH>;
 				};
 			};
+
+			ocotp: ocotp@8002c000 {
+				status = "okay";
+			};
 		};
 	};
 
