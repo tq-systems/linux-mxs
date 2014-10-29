@@ -826,9 +826,8 @@
 			};
 
 			ocotp: ocotp@8002c000 {
-				compatible = "fsl,ocotp";
+				compatible = "fsl,imx28-ocotp", "fsl,ocotp";
 				reg = <0x8002c000 0x2000>;
-				status = "disabled";
 			};
 
 			axi-ahb@8002e000 {
