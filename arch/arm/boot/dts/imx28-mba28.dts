@@ -134,6 +134,19 @@
 				auart3_pins_a: auart3@0 {
 					fsl,drive-strength = <MXS_DRIVE_8mA>;
 				};
+
+				auart4_pins_a: auart4@0 {
+					reg = <0>;
+					fsl,pinmux-ids = <
+						MX28_PAD_SSP3_SCK__AUART4_TX
+						MX28_PAD_SSP3_MOSI__AUART4_RX
+						MX28_PAD_SSP3_MISO__AUART4_RTS
+						MX28_PAD_SSP3_SS0__AUART4_CTS
+					>;
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
+					fsl,voltage = <MXS_VOLTAGE_HIGH>;
+					fsl,pull-up = <MXS_PULL_DISABLE>;
+				};
 			};
 
 			lcdif@80030000 {
@@ -276,6 +289,13 @@
 			auart3: serial@80070000 {
 				pinctrl-names = "default";
 				pinctrl-0 = <&auart3_pins_a>;
+				status = "okay";
+			};
+
+			auart4: serial@80072000 {
+				pinctrl-names = "default";
+				pinctrl-0 = <&auart4_pins_a>;
+				fsl,uart-has-rtscts;
 				status = "okay";
 			};
 
