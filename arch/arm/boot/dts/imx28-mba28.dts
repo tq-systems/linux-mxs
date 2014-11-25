@@ -127,6 +127,10 @@
 					fsl,drive-strength = <MXS_DRIVE_8mA>;
 				};
 
+				auart1_2pins_a: auart1-2pins@0 {
+					fsl,drive-strength = <MXS_DRIVE_8mA>;
+				};
+
 				auart3_pins_a: auart3@0 {
 					fsl,drive-strength = <MXS_DRIVE_8mA>;
 				};
@@ -260,6 +264,12 @@
 			auart0: serial@8006a000 {
 				pinctrl-names = "default";
 				pinctrl-0 = <&auart0_pins_a>;
+				status = "okay";
+			};
+
+			auart1: serial@8006c000 {
+				pinctrl-names = "default";
+				pinctrl-0 = <&auart1_2pins_a>;
 				status = "okay";
 			};
 
