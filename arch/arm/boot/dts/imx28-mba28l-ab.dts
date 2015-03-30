@@ -193,7 +193,11 @@
 			pwm: pwm@80064000 {
 				compatible = "fsl,imx28-pwm", "fsl,mxs-pwm", "fsl,imx23-pwm";
 				pinctrl-names = "default";
-				pinctrl-0 = <&pwm4_pins_a>;
+				pinctrl-0 = <
+					&pwm2_pins_a
+					&pwm3_pins_a
+					&pwm4_pins_a
+				>;
 				status = "okay";
 			};
 
@@ -289,5 +293,39 @@
 		default-brightness-level = <6>;
 		pwm-names = "pwm-backlight";
 		power-supply = <&reg_3p3v>;
+	};
+
+	pwm-leds {
+		compatible = "pwm-leds";
+
+		pwm3 {
+			label = "pwm3_out";
+			pwms = <&pwm 3 500000>;
+			max-brightness = <255>;
+		};
+
+		pwm4 {
+			label = "pwm4_out";
+			pwms = <&pwm 4 500000>;
+			max-brightness = <255>;
+		};
+	};
+
+	gpio-leds {
+		compatible = "gpio-leds";
+
+		red {
+			label = "red";
+			gpios = <&gpioext1 4 0>;
+			linux,default-trigger = "default-on";
+			default-state = "on";
+		};
+
+		yellow {
+			label = "yellow";
+			gpios = <&gpioext1 5 0>;
+			linux,default-trigger = "default-on";
+			default-state = "on";
+		};
 	};
 };
