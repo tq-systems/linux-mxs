@@ -178,8 +178,8 @@
 					bus-width = <18>;
 
 					display-timings {
-						native-mode = <&ET0700G0DH6>;
-						ET0700G0DH6: timing0 {
+						native-mode = <&FG0700>;
+						FG0700: timing0 {
 							clock-frequency = <33260000>;
 							hactive = <800>;
 							vactive = <480>;
